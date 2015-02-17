@@ -1,7 +1,5 @@
 #version 330 
-
-uniform float Ligspecular = 128.7;
-uniform vec3 Matdiffuse = vec3(10.0,10.01,10.01);
+uniform float Ligspecular = 128.7; uniform vec3 Matdiffuse = vec3(10.0,10.01,10.01);
 uniform vec3 Matspecular = vec3(0.1);
 
 uniform vec3 ambient = vec3(0.1, 0.1, 0.1);
@@ -29,7 +27,6 @@ void main()
 	float H = dot(N,L);
 	
 	
-	vec3 ambient = fs_in.color;
 	vec3 diffuse;
 	vec3 specular;
 	if(H > 0.0){
@@ -42,5 +39,5 @@ void main()
 	specular = vec3(0.0,0.0,0.0);
 	}
 	
-    FragColor =  vec4(diffuse + specular,1.0f);
+    FragColor =  vec4(diffuse + specular + ambient,1.0f);
 }

@@ -13,6 +13,7 @@
 #include "../rendering/Mesh.h"
 #include "../rendering/Shader.h"
 #include "../rendering/Texture.h"
+#include "../core/Input.h"
 #include "Kernel.h"
 
 
@@ -116,8 +117,10 @@ void Console::initMap(){
         MAP_FUNCTION(look,3,
                 Camera & camera= ImpactEngine::render_engine->getRenderQueue().getCamera();
                 camera.lookAt(Misc::float_value_of(arguments[0]),Misc::float_value_of(arguments[1]),Misc::float_value_of(arguments[2]));
-                )
- 
+                ),
+        MAP_FUNCTION(grab,0,
+                Mouse::grabMouse(!Mouse::isGrabed());
+                ),
     };
 }
 

@@ -10,6 +10,14 @@ class TestGame : public AbstractGame{
         void render(RenderingEngine * re) override;
         void update(PhysicsEngine * pe) override;
         void clean() override;
+    private:
+        bool forward;
+        bool backward;
+        bool left;
+        bool right;
+        bool up;
+        bool down;
+        double place[150];
 };
 
 #endif /* TESTGAME_H */

@@ -9,10 +9,10 @@ class Camera{
         Matrix4d getCameraMatrix() const;
         void setPosition(double x,double y,double z);
         void lookAt(double x,double y,double z);
+        Vector3d position;
+        Quaterniond rotation;
+        Matrix4d perspective;
     private:
-    Vector3d position;
-    Quaterniond rotation;
-    Matrix4d perspective;
 };
 
 #endif /* CAMERA_H */

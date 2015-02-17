@@ -5,10 +5,7 @@
 
 #define MATH_PI 3.1415926535897932384626433832795
 
-class Math{
-    template<typename T>
-    static inline T abs(T & value);
-};
+class Math{ template<typename T> static inline T abs(T & value); };
 
 template<typename T,unsigned int I>
 class Vector{
@@ -164,6 +161,10 @@ class Quaternion : public Vector4<T>{
         inline Quaternion(const Vector3<T> & axis,T angle);
         inline Quaternion(const Matrix4<T>& m);
 
+        inline Quaternion<T> & toIdentity();
+
+        inline Quaternion<T> rotate(const Vector3<T> & axis, T angle);
+
         inline Quaternion<T> NLerp(const Quaternion& r, T lerpFactor, bool shortestPath) const;
         inline Quaternion<T> SLerp(const Quaternion& r, T lerpFactor, bool shortestPath) const;
 
@@ -179,7 +180,9 @@ class Quaternion : public Vector4<T>{
         inline Quaternion<T> conjugate() const;
 
         inline Quaternion<T> operator*(const Quaternion& r) const;
-        inline Quaternion<T> operator*(const Vector3<T>& r) const;
+        inline Quaternion<T> & operator*=(const Quaternion& r);
+        inline Quaternion<T>  operator*(const Vector3<T>& r) const;
+        inline Quaternion<T> & operator*=(const Vector3<T>& r);
 
         inline Vector3<T> rotateVec(const Vector3<T> & vec) const;
 
@@ -192,7 +195,7 @@ class MathUtil{
     static std::string matrixToStr(const Matrix<T,I> & mat);
 
     template<typename T,unsigned int I>
-    static std::string vertorToStr(const Vector<T,I> & mat);
+    static std::string vectorToStr(const Vector<T,I> & mat);
 };
 
 typedef Vector2<float> Vector2f;

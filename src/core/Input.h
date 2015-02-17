@@ -26,6 +26,10 @@ class Input{
         };
 
         static void update();
+        static void posCallback(GLFWwindow * window,double xpos, double ypos);
+
+        static void grabMouse(bool grab);
+
     private:
 
 };
@@ -33,30 +37,30 @@ class Input{
 class Mouse{
     friend Input;
     public:
+        static double x;
+        static double y;
+        static void grabMouse(bool grab);
+        static bool isGrabed();//TODO spell?
     private:
+        static bool grabed;
         static void init();
 
-        static void CallPosCallback(GLFWwindow * window,double x,double y);
+
+        static void posCallback(GLFWwindow * window,double x,double y);
         static void ButtonCallback(GLFWwindow * window, int key, int action,int mod);
 };
-
+/*
+ * Very temporary input selution
+ */
 class Keyboard{
     friend Input;
     public:
-        static Event * registerKeyEvent(int key,Motion motion,HName eventname);
+        static bool isKeyPressed(int key);
     private:
-        struct KeyState{
-            Motion motion;
-            Event * event;
-        };
         static void init();
-
-        static void update();
-
         static void keyCallback(GLFWwindow * window,int key,int scancode,int action,int mods);
     
-        static std::map<int,KeyState> key_map;
-        static std::map<int,Event *> keys_in_proper_state;
+        static std::map<int,bool> key_map;
 };
 
 #endif /* INPUT_H */

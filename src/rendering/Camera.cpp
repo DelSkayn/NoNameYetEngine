@@ -11,13 +11,12 @@ Camera::Camera(float fov,float near,float far,float aspectRatio){
 }
 
 Matrix4d Camera::getCameraMatrix() const{
-    Matrix4d trans;
-    trans.toTranslation(position);
-    trans *= rotation.toMatrix();
-    //TODO translation
+    Matrix4d rot = rotation.conjugate().toMatrix();
+    Matrix4d trans = Matrix4d().toTranslation(position * -1);
+    //TODO scale??
     //In order to move the camera downwards we actually 
     //need to move the world opisite direction.
-    return perspective * trans.invert();
+    return perspective * rot * trans;
 }
 
 void Camera::setPosition(double x,double y,double z){
