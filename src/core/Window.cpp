@@ -1,13 +1,12 @@
 #include "Window.h"
-
 #include <string>
 
 #include "../util/Log.h"
 #include "../Engine.h"
 
 Window::Window(){
-    width = 600;
-    height = 400;
+    width = 1280;
+    height = 720;
     window_title = "SkaynEngine";
     window = nullptr;
 

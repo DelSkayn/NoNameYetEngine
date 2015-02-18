@@ -5,14 +5,16 @@
 
 class Camera{
     public:
-        Camera(float fov = 90,float near = 1,float far = 10000.0,float aspectRatio = 600/400);
-        Matrix4d getCameraMatrix() const;
+        Camera(float fov = 90,float near = 1,float far = 10000.0,float aspectRatio = 1280/720);
+        Matrix4d getViewProjection() const;
+        Matrix4d getProjection() const;
+        Matrix4d getView() const;
         void setPosition(double x,double y,double z);
         void lookAt(double x,double y,double z);
-        Vector3d position;
         Quaterniond rotation;
-        Matrix4d perspective;
+        Vector3d position;
     private:
+        Matrix4d perspective;
 };
 
 #endif /* CAMERA_H */

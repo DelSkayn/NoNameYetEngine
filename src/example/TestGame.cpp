@@ -17,21 +17,21 @@
 #include <cstdlib>
 #include <cmath>
 
+
 TestGame::~TestGame(){
 }
 
 void TestGame::init(){
     MeshManager::loadMesh("teapot.obj","t");
     ShaderManager::LoadShader("pv.glsl","p.glsl","s");
-    for(unsigned int i = 0;i < 150;i++){
-        this->place[i] = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX)) * 10;
+    for(unsigned int i = 0;i < NUMBER_TEAPOT*3;i++){
+        this->place[i] = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX)) * 100;
     }
 }
 
 void TestGame::render(RenderingEngine * re){
     Camera & cam = re->getRenderQueue().getCamera();
-    /*
-       for(unsigned int i = 0;i < 50;i++){
+       for(unsigned int i = 0;i < NUMBER_TEAPOT;i++){
            RenderObject obj;
            obj.m = MeshManager::getMesh("t");
            obj.ModelMat = Matrix4d().toTranslation(Vector3d(
@@ -41,32 +41,32 @@ void TestGame::render(RenderingEngine * re){
            ));
            re->getRenderQueue().addRenderObj(obj);
        }
-       */
     RenderObject obj;
     obj.m = MeshManager::getMesh("t");
     re->getRenderQueue().addRenderObj(obj);
 
-    RenderObject obj2;
-    obj2.m = MeshManager::getMesh("t");
-    re->getRenderQueue().addRenderObj(obj);
 
-
-    Quaterniond quat1(Vector3d(0,1,0),Mouse::x /100);
-    Quaterniond quat2(quat1.right(),Mouse::y /100);
+    Quaterniond quat1(Vector3d(0,1,0),Mouse::x /300);
+    Quaterniond quat2(quat1.right(),Mouse::y /300);
     cam.rotation = quat2 * quat1;
 
-
     if(Keyboard::isKeyPressed(GLFW_KEY_W)){
-        cam.position += cam.rotation.forward();
+        cam.position -= cam.rotation.forward();
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_S)){
-        cam.position += cam.rotation.back();
+        cam.position -= cam.rotation.back();
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_A)){
         cam.position += cam.rotation.left();
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_D)){
         cam.position += cam.rotation.right();
+    }
+    if(Keyboard::isKeyPressed(GLFW_KEY_Q)){
+        cam.position += cam.rotation.up();
+    }
+    if(Keyboard::isKeyPressed(GLFW_KEY_E)){
+        cam.position += cam.rotation.down();
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_ESCAPE)){
         Kernel::quit();

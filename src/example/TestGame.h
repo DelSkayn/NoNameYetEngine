@@ -2,6 +2,7 @@
 #define TESTGAME_H
 
 #include "../AbstractGame.h"
+#define NUMBER_TEAPOT 200
 
 class TestGame : public AbstractGame{
     public:
@@ -17,7 +18,7 @@ class TestGame : public AbstractGame{
         bool right;
         bool up;
         bool down;
-        double place[150];
+        double place[NUMBER_TEAPOT*3];
 };
 
 #endif /* TESTGAME_H */

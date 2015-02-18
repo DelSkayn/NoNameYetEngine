@@ -1,0 +1,45 @@
+Shading:
+
+Basic fragment color equation:
+
+Color = Ambient * diffuse * specular * diffuseColor
+
+Lambert diffuse:
+
+Lambert diffuse is used in almost all games because its quick and
+gives good results. There are other diffuse reflections functions,
+but they are not really worth the extra cost. (differences in how
+not shiny an object is hard to see)
+
+Id = (L.N)*C*Il
+
+Id = the intesity of the reflected light
+L = the normalized light direction pointing from the surfuce to the light source
+N = the normal vector of the surface
+C = the color of the light
+
+Not that hard really
+
+Cook-Torrance specular
+
+So Cook Torrance is somewhat more diffecult.
+The basic function is as follow:
+f = (D * F * G) / (4* (N.L) * (N.V));
+
+where:
+f = the specular
+N = the normal vector of the surface
+L = the normalized light direction pointing from the surfuce to the light source
+V = the normalized viewer direction pointing from the surfuce to the camera
+
+So far so good however we the D,F and G ar not yet explained Soooo:
+D = the normal distribution function
+F = the fresnel factor 
+G = the Geometry shadowing term 
+
+Each of these functions have there own model or approximations.
+
+For more info:
+www.graphicrants.blogspot.fr/2013/08/specular-brdf-reference.html
+
+

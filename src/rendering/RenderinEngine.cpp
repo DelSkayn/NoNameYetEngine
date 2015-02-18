@@ -85,13 +85,13 @@ void RenderingEngine::render() {
 
     Shader & shader = *(render_que.defaultShader);
     auto & list = render_que.render_list;
-    Matrix4d camMatrix = render_que.current_camera.getCameraMatrix();
+    Matrix4d camMatrix = render_que.current_camera.getViewProjection();
 
     glUseProgram(shader.program);
 
     for(unsigned int i = 0;i < list.size();i++){
         glUniformMatrix4fv(render_que.transformMatrixUniform,1,GL_FALSE
-                ,Matrix4f(camMatrix  /* list[i].ModelMat*/)[0]);
+                ,Matrix4f(camMatrix  * list[i].ModelMat)[0]);
 
         glBindVertexArray(list[i].m->vao);
         glDrawElements(GL_TRIANGLES,list[i].m->indexsize,GL_UNSIGNED_INT,0);

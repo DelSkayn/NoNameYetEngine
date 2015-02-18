@@ -84,7 +84,7 @@ template<typename T,unsigned int I>
 Vector<T,I> Vector<T,I>::operator/(const T & value) const{
     Vector<T,I> result;
     for(unsigned int i = 0;i < I;i++){
-        result[i] = (*this)[i] - value; 
+        result[i] = (*this)[i] / value; 
     }
     return result;
 }

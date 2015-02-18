@@ -18,7 +18,6 @@ void Input::init(){
 
 void Keyboard::init(){  
     glfwSetKeyCallback(ImpactEngine::getWindow()->getNativeWindow(),Keyboard::keyCallback);
-
 }
 
 void Mouse::init(){

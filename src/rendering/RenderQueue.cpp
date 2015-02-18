@@ -13,7 +13,7 @@ Camera & RenderQueue::getCamera(){
 
 void RenderQueue::setShader(Shader * shader){
     this->defaultShader = shader;
-    this->transformMatrixUniform = glGetUniformLocation(defaultShader->program,"transform");
+    this->transformMatrixUniform = glGetUniformLocation(defaultShader->program,"uni_MVPMat");
 }
 
 void RenderQueue::clearList(){
