@@ -21,6 +21,7 @@ Major Tasks:
         - Prepass Lighting
         - Rendertargets
     - Physically based rendering
+        ! Very basic lighting equation works
         # see research
     - Some higher level redendering construct:
         - Spatial tree?
@@ -29,10 +30,13 @@ Major Tasks:
     - basic rigid body physics
     - bullet physics
 - UI:
-    - basicly UI system
+    - basic UI system:
+        - Menus
+        - Health bars
+        - etc
 - Memory
     - Custom allocators
-        - Change all new operator to own allocator
+        - Change all new operator to own allocator?
     - Memory profilling
 -profiling
     - Time

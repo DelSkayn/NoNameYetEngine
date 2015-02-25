@@ -1,10 +1,20 @@
 == Shader Documentation ==
 
+
+## Uniforms ##
+
+* Uniform names a prediffined in NNYE. On attaching a shader 
+all nessesary uniform locations are loaded to prediffined 
+attach points? 
+
+Why not just map the uniforms?
+Speed, Probebly
+
 Uniform names:
 !! TEMP !!
     Matrixes:
     -- MVP matrix: uni_MVP
-    -- MV matrix: uni MV
+    -- MV matrix: uni_MV
     -- Projection matrix: uni_p
 
 attributes:

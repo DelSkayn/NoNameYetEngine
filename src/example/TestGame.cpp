@@ -1,5 +1,4 @@
 #include "TestGame.h" 
-
 #include "../rendering/Mesh.h" 
 #include "../rendering/RenderEngine.h" 
 #include "../rendering/Shader.h" 
@@ -51,6 +50,7 @@ void TestGame::render(RenderEngine * re){
     Quaterniond quat1(Vector3d(0,1,0),Mouse::x /300);
     Quaterniond quat2(quat1.right(),Mouse::y /300);
     cam.rotation = quat2 * quat1;
+    cam.rotation.conjugate();
 
     if(Keyboard::isKeyPressed(GLFW_KEY_W)){
         cam.position -= cam.rotation.forward() *0.5;

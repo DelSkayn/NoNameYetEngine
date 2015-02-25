@@ -4,6 +4,9 @@
 #include "../AbstractGame.h"
 #define NUMBER_TEAPOT 538
 
+/*
+ * A Very basic example to test the Engine
+ */
 class TestGame : public AbstractGame{
     public:
         ~TestGame();
