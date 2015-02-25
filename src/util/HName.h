@@ -12,6 +12,7 @@
 class HName{
     public:
         inline HName (const std::string & name);
+        constexpr HName(const std::string && name);
         inline operator uint64_t () const;
         inline bool operator == (const HName & other);
         inline bool operator != (const HName & other);

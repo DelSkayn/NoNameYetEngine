@@ -1,0 +1,52 @@
+== Todo Check list ==
+
+Goal: 
+Get a quake clone running
+
+Major Tasks:
+- Networking:
+    - udp connection protocol
+    - basic over ip connection
+    Not a task:
+    - cheat security
+- Rendering:
+    - Expand rendering code:
+        - Uniforms
+            - Find a proper way to mannage them
+        - lights
+        - shaders
+        - textures
+        - etc
+    - Defered rendering?
+        - Prepass Lighting
+        - Rendertargets
+    - Physically based rendering
+        # see research
+    - Some higher level redendering construct:
+        - Spatial tree?
+        - Culling?
+- physics:
+    - basic rigid body physics
+    - bullet physics
+- UI:
+    - basicly UI system
+- Memory
+    - Custom allocators
+        - Change all new operator to own allocator
+    - Memory profilling
+-profiling
+    - Time
+    - Memory
+- Resources
+    - Lexers
+        # Need some research
+    - Mesh Loaders
+    - Shaders
+    - Textures
+- other:
+    - make engine libary based
+
+Minor Tasks:
+- Redesign input
+- 
+

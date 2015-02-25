@@ -1,0 +1,22 @@
+== Shader Documentation ==
+
+Uniform names:
+!! TEMP !!
+    Matrixes:
+    -- MVP matrix: uni_MVP
+    -- MV matrix: uni MV
+    -- Projection matrix: uni_p
+
+attributes:
+    Location:
+        0:Vertex vector
+        1:normal vector
+        2:texture coords vector
+
+texture:
+    Location:
+        diffuse : tex_Diffuse
+        normal + depth : tex_normal
+        material : tex_material 
+
+ 

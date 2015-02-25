@@ -1,11 +1,16 @@
 #include "PhysicsEngine.h"
 
-PhysicsEngine::PhysicsEngine(){
-}
+namespace NNY{
+    namespace Physics{
 
-PhysicsEngine::~PhysicsEngine(){
-}
+        PhysicsEngine::PhysicsEngine(){
+        }
 
-void PhysicsEngine::update()const{
-    //TODO update methode stub
+        PhysicsEngine::~PhysicsEngine(){
+        }
+
+        void PhysicsEngine::update()const{
+            //TODO update methode stub
+        }
+    }
 }

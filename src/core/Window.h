@@ -5,42 +5,48 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-class Window{
-    public:
-        Window();
-        Window(unsigned int width, unsigned int height);
-        Window(unsigned int width, unsigned int height, std::string title);
-        ~Window();
+namespace NNY{
+    namespace Core{
 
-        void setTitle(const std::string window_title);
-        const std::string & getTitle() const;
+        class Window{
+            public:
+                Window();
+                Window(unsigned int width, unsigned int height);
+                Window(unsigned int width, unsigned int height, std::string title);
+                ~Window();
 
-        void setDimensions(unsigned int width,unsigned int height);
-        void setHeight(unsigned int height);
-        void setWidth(unsigned int Width);
+                void setTitle(const std::string window_title);
+                const std::string & getTitle() const;
 
-        unsigned int getHeight() const;
-        unsigned int getWidth() const;
+                void setDimensions(unsigned int width,unsigned int height);
+                void setHeight(unsigned int height);
+                void setWidth(unsigned int Width);
 
-        void resize() const;
+                unsigned int getHeight() const;
+                unsigned int getWidth() const;
 
-        void update() const;
+                void resize() const;
 
-        bool isInitalized() const;
+                void update() const;
 
-        GLFWwindow * getNativeWindow();
-    private:
-        bool active;
+                bool isInitalized() const;
 
-        void create();
-        void destroy();
+                GLFWwindow * getNativeWindow();
+            private:
+                bool active;
 
-        unsigned int width, height; 
+                void create();
+                void destroy();
 
-        std::string window_title;
+                unsigned int width, height; 
 
-        GLFWwindow * window;
-};
+                std::string window_title;
+
+                GLFWwindow * window;
+        };
+
+    }
+}
 
 #endif /* WINDOW_H */
 

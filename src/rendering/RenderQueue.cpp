@@ -3,19 +3,26 @@
 
 #include <GL/glew.h>
 
-void RenderQueue::addRenderObj(RenderObject obj){
-    this->render_list.push_back(obj);
-}
+namespace NNY{
+    namespace Render{
 
-Camera & RenderQueue::getCamera(){
-    return current_camera;
-}
+        void RenderQueue::addRenderObj(RenderObject obj){
+            this->render_list.push_back(obj);
+        }
 
-void RenderQueue::setShader(Shader * shader){
-    this->defaultShader = shader;
-    this->transformMatrixUniform = glGetUniformLocation(defaultShader->program,"uni_MVPMat");
-}
+        Camera & RenderQueue::getCamera(){
+            return current_camera;
+        }
 
-void RenderQueue::clearList(){
-    render_list.clear();
+        void RenderQueue::setShader(Shader * shader){
+            this->defaultShader = shader;
+            this->MVPuniform = glGetUniformLocation(defaultShader->program,"uni_MVPMat");
+            this->Puniform = glGetUniformLocation(defaultShader->program,"uni_PMat");
+            this->MVuniform = glGetUniformLocation(defaultShader->program,"uni_MVMat");
+        }
+
+        void RenderQueue::clearList(){
+            render_list.clear();
+        }
+    }
 }

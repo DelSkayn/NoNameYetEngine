@@ -39,6 +39,36 @@ G = the Geometry shadowing term
 
 Each of these functions have there own model or approximations.
 
+For the following formulas 
+
+a = roughnes ^ 2
+
+=== the normal distribution function:
+GGX/Trowbridge-reitz
+
+D = (a^2) / (PI((n.m)^2 (a^2 - 1) + 1)^2
+
+Where m = h = cross between the light dir and the view dir
+
+=== Geometric shadowing
+
+Smith:
+    Smiths formula does not take two variables but
+    one variable two times
+
+Smith-Schlick-GGX:
+    G 1,2 =(n.v) / (n.v)(1-k) + k
+
+    Where k = a/2 !! Might need remapping !!
+    v = Either L or V
+
+    Final G = G1 * G2;
+
+=== Fresnel Factor
+
+F = F0 + (1 - F0)(1 - (v.h))^5
+
+
 For more info:
 www.graphicrants.blogspot.fr/2013/08/specular-brdf-reference.html
 

@@ -1,6 +1,5 @@
 #ifndef ENGINE_H
-#define ENGINE_H
-
+#define ENGINE_H 
 #include <GL/glew.h>
 #include "core/Kernel.h"
 
@@ -9,33 +8,42 @@
 
 #include "AbstractGame.h" 
 
-//some forward declarations
-class Window;
-class RenderingEngine;
-class PhysicsEngine;
-class Console;
-class Input;
 
-class ImpactEngine{
-    friend Kernel;
-    friend Console;
-    friend Input;
-public:
-    static void setGame(AbstractGame * game);
-    static void start();
-    static void clean();
-    static void run();
+namespace NNY{
+    //some forward declarations
+    namespace Render{
+        class RenderEngine;
+    }
+    namespace Physics{
+        class PhysicsEngine;
+    }
+    namespace Core{
+        class Console;
+        class Input;
+        class Window;
+        class Kernel;
+    }
 
-    static Window * getWindow();
+    class Engine{
+        friend Core::Kernel;
+        friend Core::Console;
+        friend Core::Input;
+        public:
+        static void setGame(AbstractGame * game);
+        static void start();
+        static void clean();
+        static void run();
 
-private:
-    static Window * current_window;
-    static RenderingEngine * render_engine;
-    static PhysicsEngine * physics_engine;
-    static Console * console;
-    static AbstractGame * game;
-    //pointers to the different modules of the engine
-};
+        static Core::Window * getWindow();
 
+        private:
+        static Core::Window * current_window;
+        static Render::RenderEngine * render_engine;
+        static Physics::PhysicsEngine * physics_engine;
+        static Core::Console * console;
+        static AbstractGame * game;
+        //pointers to the different modules of the engine
+    };
 
+}
 #endif

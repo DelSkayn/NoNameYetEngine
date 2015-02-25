@@ -2,14 +2,14 @@
 #define TESTGAME_H
 
 #include "../AbstractGame.h"
-#define NUMBER_TEAPOT 200
+#define NUMBER_TEAPOT 538
 
 class TestGame : public AbstractGame{
     public:
         ~TestGame();
         void init() override;
-        void render(RenderingEngine * re) override;
-        void update(PhysicsEngine * pe) override;
+        void render(NNY::Render::RenderEngine * re) override;
+        void update(NNY::Physics::PhysicsEngine * pe) override;
         void clean() override;
     private:
         bool forward;

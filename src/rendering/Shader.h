@@ -9,33 +9,38 @@
 
 #define SHADER_PATH "res/shader/"
 
-struct Shader{
-    GLuint vertex;
-    GLuint fragment;
-    GLuint program;
-};
+namespace NNY{
+    namespace Render{
 
-class ShaderManager{
-    public:
-        /*
-         * Loads shader files and compiles then into a shader
-         * args:
-         * vertexPath: the path to vertex shader
-         * fragmentPath: path to the fragemnt shader 
-         * shadername: the name of the shader after it is loaded in the map 
-         */
-        static void LoadShader(std::string vertexPath,std::string fragmentPath, std::string shaderName);
+        struct Shader{
+            GLuint vertex;
+            GLuint fragment;
+            GLuint program;
+        };
 
-        static Shader * getShader(std::string name);
+        class ShaderManager{
+            public:
+                /*
+                 * Loads shader files and compiles then into a shader
+                 * args:
+                 * vertexPath: the path to vertex shader
+                 * fragmentPath: path to the fragemnt shader 
+                 * shadername: the name of the shader after it is loaded in the map 
+                 */
+                static void LoadShader(std::string vertexPath,std::string fragmentPath, std::string shaderName);
 
-        static void clean();
+                static Shader * getShader(std::string name);
 
-        static void deleteShader(std::string name);
-    private:
-        static void deleteShader(Shader s);
+                static void clean();
 
-        static Shader compileShader(std::string vertexScource,std::string fragmentScource);
-        static std::map<HName,Shader> shader_map;
-};
+                static void deleteShader(std::string name);
+            private:
+                static void deleteShader(Shader s);
+
+                static Shader compileShader(std::string vertexScource,std::string fragmentScource);
+                static std::map<HName,Shader> shader_map;
+        };
+    }
+}
 
 #endif /* SHADER_H */

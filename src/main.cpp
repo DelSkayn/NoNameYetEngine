@@ -6,8 +6,8 @@
 #include "example/TestGame.h" 
 
 int main(){
-    ImpactEngine::start();
-    ImpactEngine::setGame(new TestGame());
-    ImpactEngine::run();
-    ImpactEngine::clean();
+    NNY::Engine::start();
+    NNY::Engine::setGame(new TestGame());
+    NNY::Engine::run();
+    NNY::Engine::clean();
 }

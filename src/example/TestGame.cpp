@@ -1,11 +1,10 @@
 #include "TestGame.h" 
 
 #include "../rendering/Mesh.h" 
-#include "../rendering/RenderinEngine.h" 
+#include "../rendering/RenderEngine.h" 
 #include "../rendering/Shader.h" 
 #include "../rendering/RenderObject.h" 
 
-#include "../core/Event.h"
 #include "../core/Input.h"
 
 #include "../core/Kernel.h"
@@ -18,6 +17,9 @@
 #include <cmath>
 
 
+using namespace NNY::Render;
+using namespace NNY::Core;
+
 TestGame::~TestGame(){
 }
 
@@ -29,7 +31,7 @@ void TestGame::init(){
     }
 }
 
-void TestGame::render(RenderingEngine * re){
+void TestGame::render(RenderEngine * re){
     Camera & cam = re->getRenderQueue().getCamera();
        for(unsigned int i = 0;i < NUMBER_TEAPOT;i++){
            RenderObject obj;
@@ -51,22 +53,22 @@ void TestGame::render(RenderingEngine * re){
     cam.rotation = quat2 * quat1;
 
     if(Keyboard::isKeyPressed(GLFW_KEY_W)){
-        cam.position -= cam.rotation.forward();
+        cam.position -= cam.rotation.forward() *0.5;
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_S)){
-        cam.position -= cam.rotation.back();
+        cam.position -= cam.rotation.back() * 0.5;
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_A)){
-        cam.position += cam.rotation.left();
+        cam.position += cam.rotation.left() * 0.5;
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_D)){
-        cam.position += cam.rotation.right();
+        cam.position += cam.rotation.right() * 0.5;
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_Q)){
-        cam.position += cam.rotation.up();
+        cam.position += cam.rotation.up() * 0.5;
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_E)){
-        cam.position += cam.rotation.down();
+        cam.position += cam.rotation.down() * 0.5;
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_ESCAPE)){
         Kernel::quit();
@@ -74,7 +76,7 @@ void TestGame::render(RenderingEngine * re){
     re->getRenderQueue().setShader(ShaderManager::getShader("s"));
 }
 
-void TestGame::update(PhysicsEngine * pe){
+void TestGame::update(NNY::Physics::PhysicsEngine * pe){
 }
 
 void TestGame::clean(){
