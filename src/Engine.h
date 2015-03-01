@@ -42,8 +42,8 @@ namespace NNY{
         static Physics::PhysicsEngine * physics_engine;
         static Core::Console * console;
         static AbstractGame * game;
+        static bool initialized;
         //pointers to the different modules of the engine
     };
-
 }
 #endif

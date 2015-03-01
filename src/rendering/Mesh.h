@@ -8,7 +8,6 @@
 
 #include "../util/Math3D.h"
 #include "../util/HName.h"
-#include "../memory/MemAllocator.h" 
 #define MESH_FOLDER "res/mesh/"
 
 namespace NNY{
@@ -26,11 +25,11 @@ namespace NNY{
 
 
         struct MeshRescource {
-            std::vector<Vector3f,MemAllocator<Vector3f>> vertex;
-            std::vector<Vector3f,MemAllocator<Vector3f>> normals;
-            std::vector<Vector2f,MemAllocator<Vector2f>> texcoords;
-            std::vector<unsigned int,MemAllocator<unsigned int>> index;
-            std::vector<int,MemAllocator<int>> material_ids;
+            std::vector<Vector3f/*,MemAllocator<Vector3f>*/> vertex;
+            std::vector<Vector3f/*,MemAllocator<Vector3f>*/> normals;
+            std::vector<Vector2f/*,MemAllocator<Vector2f>*/> texcoords;
+            std::vector<unsigned int/*,MemAllocator<unsigned int>*/> index;
+            std::vector<int/*,MemAllocator<int>*/> material_ids;
 
             unsigned int indexsize;
 

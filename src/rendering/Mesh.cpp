@@ -72,7 +72,7 @@ namespace NNY{
 
             //test if file could be opened
             if(!in.is_open()){
-                LOGLVL("[Warning] Mesh file could not be opened: " MESH_FOLDER + filename,Log::Level::RENDERING) 
+                M_LOGLVL("[Warning] Mesh file could not be opened: " MESH_FOLDER + filename,Log::Level::RENDERING) 
                     return;
             }
 
@@ -87,12 +87,12 @@ namespace NNY{
                 ObjMeshFormatLoader loader;
                 loader.loadMesh(s.mr,in);
             }else{
-                LOGLVL("[Warning] Could not find mesh extension. Mesh not loaded",Log::Level::RENDERING)
+                M_LOGLVL("[Warning] Could not find mesh extension. Mesh not loaded",Log::Level::RENDERING)
             }
 
             s.loaded = false;;
 
-            LOGLVL("[message] Loaded Mesh into memory: " + filename,Log::Level::RENDERING);
+            M_LOGLVL("[message] Loaded Mesh into memory: " + filename,Log::Level::RENDERING);
 
             mesh_map.insert(std::pair<HName,Shape>(meshname,s));
 
@@ -106,7 +106,7 @@ namespace NNY{
 
             //test if file could be opened
             if(!in.is_open()){
-                LOGLVL("[Warning] Mesh file could not be opened: " MESH_FOLDER + filename,Log::Level::RENDERING) 
+                M_LOGLVL("[Warning] Mesh file could not be opened: " MESH_FOLDER + filename,Log::Level::RENDERING) 
                     return;
             }
 
@@ -121,14 +121,14 @@ namespace NNY{
                 ObjMeshFormatLoader loader;
                 loader.loadMesh(s.mr,in);
             }else{
-                LOGLVL("[Warning] Could not find mesh extension. Mesh not loaded",Log::Level::RENDERING)
+                M_LOGLVL("[Warning] Could not find mesh extension. Mesh not loaded",Log::Level::RENDERING)
             }
 
             s.loaded = true;
 
             loadMesh(s.m,s.mr);
 
-            LOGLVL("[message] Loaded Mesh into memory: " + filename,Log::Level::RENDERING);
+            M_LOGLVL("[message] Loaded Mesh into memory: " + filename,Log::Level::RENDERING);
 
 
             mesh_map.insert(std::pair<HName,Shape>(meshname,s));
@@ -156,7 +156,7 @@ namespace NNY{
             mr.normals.clear();
 
             if(line.empty()){
-                LOGLVL("[Warning] Obj file empty",Log::Level::RENDERING)
+                M_LOGLVL("[Warning] Obj file empty",Log::Level::RENDERING)
                     return;
             }
 
@@ -273,7 +273,7 @@ namespace NNY{
                         }
                     }
                     if(!found){
-                        LOGLVL("[Warning] found not supported identifier: " + words[0],Log::Level::RENDERING)
+                        M_LOGLVL("[Warning] found not supported identifier: " + words[0],Log::Level::RENDERING)
                             weirdIderntifiers.push_back(words[0]);
                     }
                 }
@@ -283,14 +283,14 @@ namespace NNY{
             //Soo all the data is loaded.
             //Now to put it in the right place.
             if(textureIndexSeperate){
-                std::vector<Vector2f,MemAllocator<Vector2f>> tempCoords = mr.texcoords;
+                std::vector<Vector2f/*,MemAllocator<Vector2f>*/> tempCoords = mr.texcoords;
                 mr.texcoords.reserve(mr.indexsize);
                 for(unsigned int i = 0;i < mr.indexsize;i++){
                     mr.texcoords[mr.index[i]] = tempCoords[textureIndecies[i]];
                 }
             }
             if(normalIndexSeperate){
-                std::vector<Vector3f,MemAllocator<Vector3f>> tempNormals = mr.normals;
+                std::vector<Vector3f/*,MemAllocator<Vector3f>*/> tempNormals = mr.normals;
                 mr.normals.reserve(mr.indexsize);
                 for(unsigned int i = 0;i < mr.indexsize;i++){
                     mr.normals[mr.index[i]] = tempNormals[normalIndecies[i]];
@@ -302,11 +302,11 @@ namespace NNY{
         void MeshManager::unloadMesh(std::string meshName){
             auto it = mesh_map.find(meshName);
             if(it == mesh_map.end()){
-                LOGLVL("[warning] deletion of mesh requested which was not loaded" + meshName,Log::Level::RENDERING);
+                M_LOGLVL("[warning] deletion of mesh requested which was not loaded" + meshName,Log::Level::RENDERING);
                 return;
             }
             if(!it->second.loaded){
-                LOGLVL("[warning] deletion of mesh requested which was not loaded" + meshName,Log::Level::RENDERING);
+                M_LOGLVL("[warning] deletion of mesh requested which was not loaded" + meshName,Log::Level::RENDERING);
                 return;
             }
             unloadMesh(it->second.m);
@@ -396,7 +396,7 @@ namespace NNY{
                 if(it->second.loaded){
                     return &(it->second.m);
                 }
-                LOGLVL("[warning] mesh requested whuch is not in graphics memory",Log::Level::RENDERING)
+                M_LOGLVL("[warning] mesh requested whuch is not in graphics memory",Log::Level::RENDERING)
                     return &it->second.m;
             }
         }

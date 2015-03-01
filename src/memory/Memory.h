@@ -1,17 +1,27 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
-template<typename T>
-class MemAllocator;
+#include <cstdlib>
 
-class Memory {
+namespace NNY{
+    namespace Mem{
+        class Memory{
+            public:
+                static std::size_t getAllocatedMemory();
 
-    template<typename T>
-        friend class MemAllocator;
-    public:
-        static unsigned int getAllocatedMemory();
-    private:
-        static unsigned int mem_allocated;
-};
+                template<typename T>
+                static T * allocate();
+
+                template<typename T>
+                static T * allocate(const T & obj);
+
+                template<typename T>
+                static T * allocate(T && obj){
+                }
+            private:
+                static std::size_t mem_allocated;
+        };
+    }
+}
 
 #endif /* MEMORY_H */

@@ -21,7 +21,7 @@ namespace NNY{
 
             //check if file is readable
             if(!in.is_open()){
-                LOGLVL("[warning] shader file cant be found: " + vertexPath, Log::Level::RENDERING)
+                M_LOGLVL("[warning] shader file cant be found: " + vertexPath, Log::Level::RENDERING)
                     return;
             }
 
@@ -38,7 +38,7 @@ namespace NNY{
             in.open(SHADER_PATH + fragmentPath);
 
             if(!in.is_open()){
-                LOGLVL("[warning] shader file cant be found: " + fragmentPath, Log::Level::RENDERING)
+                M_LOGLVL("[warning] shader file cant be found: " + fragmentPath, Log::Level::RENDERING)
                     return;
             }
 
@@ -75,8 +75,8 @@ namespace NNY{
                 std::vector<char> errorlogchar(maxLength);
                 glGetShaderInfoLog(s.vertex,maxLength, &maxLength, &errorlogchar[0]);
                 std::string errorlog(errorlogchar.begin(), errorlogchar.end());
-                LOGLVL("[Warning] Error in vertex shader compilation:",Log::Level::RENDERING)
-                    LOGLVL("    " + errorlog,Log::Level::RENDERING)
+                M_LOGLVL("[Warning] Error in vertex shader compilation:",Log::Level::RENDERING)
+                    M_LOGLVL("    " + errorlog,Log::Level::RENDERING)
                     return s;
             }
 
@@ -94,8 +94,8 @@ namespace NNY{
                 std::vector<char> errorlogchar(maxLength);
                 glGetShaderInfoLog(s.fragment,maxLength, &maxLength, &errorlogchar[0]);
                 std::string errorlog(errorlogchar.begin(), errorlogchar.end());
-                LOGLVL("[Warning] Error in fragment shader compilation:",Log::Level::RENDERING)
-                    LOGLVL("    " + errorlog,Log::Level::RENDERING)
+                M_LOGLVL("[Warning] Error in fragment shader compilation:",Log::Level::RENDERING)
+                    M_LOGLVL("    " + errorlog,Log::Level::RENDERING)
                     return s;
             }
 
@@ -115,8 +115,8 @@ namespace NNY{
                 glGetShaderInfoLog(s.program,maxLength, &maxLength, &errorLog[0]);
                 std::string logstring(errorLog.begin(),errorLog.end());
 
-                LOGLVL("[Warning] Error in fragment shader compilation:",Log::Level::RENDERING)
-                    LOGLVL("    " + logstring,Log::Level::RENDERING)
+                M_LOGLVL("[Warning] Error in fragment shader compilation:",Log::Level::RENDERING)
+                    M_LOGLVL("    " + logstring,Log::Level::RENDERING)
             }
 
             glDeleteShader(s.fragment);
@@ -128,7 +128,7 @@ namespace NNY{
         Shader * ShaderManager::getShader(std::string name){
             auto it = shader_map.find(HName(name));
             if(it == shader_map.end()){
-                LOGLVL("[Warning] requested shader which is not loaded: " + name,Log::Level::RENDERING)
+                M_LOGLVL("[Warning] requested shader which is not loaded: " + name,Log::Level::RENDERING)
                     //TODO add default shader in case requested on is not aviable
                     return nullptr;
             }

@@ -22,11 +22,11 @@ namespace NNY{
             //init glew
             GLenum glewerr = glewInit(); 
             if(glewerr != GLEW_OK){
-                LOGLVL("[error] glew init failed",Log::Level::RENDERING)
+                M_LOGLVL("[error] glew init failed",Log::Level::RENDERING)
                     if(glewerr == GLEW_ERROR_NO_GL_VERSION){ 
-                        LOGLVL("    No OGL version found",Log::Level::RENDERING) 
+                        M_LOGLVL("    No OGL version found",Log::Level::RENDERING) 
                     }else { 
-                        LOGLVL("    OGL version not supported",Log::Level::RENDERING)
+                        M_LOGLVL("    OGL version not supported",Log::Level::RENDERING)
                     }
                 glew_inited = false;
             }else{
@@ -39,22 +39,21 @@ namespace NNY{
             glGetIntegerv(GL_MAJOR_VERSION,&oglVersionMajor);
             glGetIntegerv(GL_MINOR_VERSION,&oglVersionMinor);
 
-            LOGLVL_VALUES(Log::Level::RENDERING,"[Message] Ogl version found",oglVersionMajor,",",oglVersionMinor)
+            M_LOGLVL_VALUES(Log::Level::RENDERING,"[Message] Ogl version found",oglVersionMajor,",",oglVersionMinor)
                 if( oglVersionMajor < OGL_VERSION_MAJOR_REQUIRED){
-                    LOGLVL("    OGL version not supported",Log::Level::RENDERING)
+                    M_LOGLVL("    OGL version not supported",Log::Level::RENDERING)
                         ogl_version_supported = false;
                 }else if(oglVersionMajor == OGL_VERSION_MAJOR_REQUIRED){
                     if( oglVersionMinor < OGL_VERSION_MINOR_REQUIRED){
-                        LOGLVL("    OGL version not supported",Log::Level::RENDERING)
+                        M_LOGLVL("    OGL version not supported",Log::Level::RENDERING)
                             ogl_version_supported = false;
                     }else{
                         ogl_version_supported = true;
                     }
                 }else{
                     ogl_version_supported = true;
-                    LOGLVL("    OGL version supported",Log::Level::RENDERING)
+                    M_LOGLVL("    OGL version supported",Log::Level::RENDERING)
                 }
-            LOG_OGLERR;
 
             //set the clear color
             glClearColor(0.0f,0.0f,0.0f,1.0f);
@@ -64,7 +63,6 @@ namespace NNY{
             glCullFace(GL_BACK);
             glEnable(GL_CULL_FACE);
 
-            LOG_OGLERR;
             //set depth testing
             glDepthRange(0,1);
             glEnable(GL_DEPTH_TEST);
@@ -84,7 +82,6 @@ namespace NNY{
 
         void RenderEngine::render() {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            LOG_OGLERR;
 
             Shader & shader = *(render_que.defaultShader);
             auto & list = render_que.render_list;

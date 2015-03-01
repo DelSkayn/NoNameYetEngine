@@ -63,27 +63,27 @@ class Log{
     void operator = (const Log &); 
 };
 
-#define LOG_FOLDER_DIR "res/"
+#define M_LOG_FOLDER_DIR "res/"
 
 //log any amount of types type
-#define LOG_VALUES( ... ) Log::getInstance().log( Misc::string_of_rec(__VA_ARGS__) , Log::Level::ALL);
+#define M_LOG_VALUES( ... ) Log::getInstance().log( Misc::string_of_rec(__VA_ARGS__) , Log::Level::ALL);
 
-#define LOG( string ) Log::getInstance().log( string , Log::Level::ALL );
+#define M_LOG( string ) Log::getInstance().log( string , Log::Level::ALL );
 
-#define LOGLVL( string, level) Log::getInstance().log( string, level);
+#define M_LOGLVL( string, level) Log::getInstance().log( string, level);
 
-#define LOGLVL_VALUES( level ,...) Log::getInstance().log( Misc::string_of_rec(__VA_ARGS__) , level);
+#define M_LOGLVL_VALUES( level ,...) Log::getInstance().log( Misc::string_of_rec(__VA_ARGS__) , level);
 
 #ifdef DEBUG
 //Prints appart form the value given also the file and line
 //empty defined if DEBUG is not defined
-#define LOG_DEBUG( value ) Log::getInstance().log( "[DEBUG] [" STR_MACRO_VALUE(__LINE__)  "] In file" __FILE__ "\n    " + Misc::string_of(value) , Log::Level::DEBUGGING );
+#define M_LOG_DEBUG( value ) Log::getInstance().log( "[DEBUG] [" STR_MACRO_VALUE(__LINE__)  "] In file" __FILE__ "\n    " + Misc::string_of(value) , Log::Level::DEBUGGING );
 
-#define LOG_DEBUG_VALUES( ... ) Log::getInstance().log( "[DEBUG][ " STR_MACRO_VALUE(__LINE__) "] In file" __FILE__ "\n    " + Misc::string_of_rec(__VA_ARGS__) , Log::Level::DEBUGGING );
-#define LOG_OGLERR Log::getInstance().logOglError( "[DEBUG][OGL] " STR_MACRO_VALUE(__LINE__) "] in file " __FILE__ )
+#define M_LOG_DEBUG_VALUES( ... ) Log::getInstance().log( "[DEBUG][ " STR_MACRO_VALUE(__LINE__) "] In file" __FILE__ "\n    " + Misc::string_of_rec(__VA_ARGS__) , Log::Level::DEBUGGING );
+#define M_LOG_OGLERR Log::getInstance().logOglError( "[DEBUG][OGL] " STR_MACRO_VALUE(__LINE__) "] in file " __FILE__ )
 #else 
-#define LOG_DEBUG(value )
-#define LOG_DEBUG_VALUES (...)
+#define M_LOG_DEBUG(value )
+#define M_LOG_DEBUG_VALUES (...)
 
 #endif /* DEBUG */
 

@@ -95,10 +95,6 @@ namespace NNY{
                 MAP_FUNCTION(echo,1,
                         std::cout << arguments[0] << std::endl;
                         ),
-                MAP_FUNCTION(memory,0,
-                        std::cout << "Memory used: " << Memory::getAllocatedMemory()
-                        << " bytes"<< std::endl;
-                        ),
                 MAP_FUNCTION(q,0,
                         Kernel::quit();
                         ),

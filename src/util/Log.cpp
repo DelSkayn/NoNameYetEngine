@@ -14,7 +14,7 @@ Log & Log::getInstance(){
 
 Log::Log(){
     //open log folder
-    out.open(LOG_FOLDER_DIR "out.txt",std::ostream::out);
+    out.open(M_LOG_FOLDER_DIR "out.txt",std::ostream::out);
     if(!out.is_open()){
         std::cout << "[error] Could not open log file" << std::endl;
     }

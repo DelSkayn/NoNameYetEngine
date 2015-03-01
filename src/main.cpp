@@ -6,8 +6,8 @@
 #include "example/TestGame.h" 
 
 int main(){
-    NNY::Engine::start();
     NNY::Engine::setGame(new TestGame());
+    NNY::Engine::start();
     NNY::Engine::run();
     NNY::Engine::clean();
 }

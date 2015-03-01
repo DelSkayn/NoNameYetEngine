@@ -10,7 +10,6 @@ namespace NNY{
 
         Camera::Camera(float fov,float near,float far,float aspectRatio){
             perspective.toPerspective(fov,aspectRatio,near,far);
-            LOG_DEBUG(MathUtil::matrixToStr(perspective))
         }
 
         Matrix4d Camera::getViewProjection() const{

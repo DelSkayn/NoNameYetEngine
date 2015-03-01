@@ -98,7 +98,7 @@ namespace NNY{
             glfwSwapInterval(1); 
 
             if(window == nullptr){
-                LOGLVL("[Error] could not create window", Log::Level::RENDERING)         
+                M_LOGLVL("[Error] could not create window", Log::Level::RENDERING)         
                     return;
             }
 

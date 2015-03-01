@@ -25,7 +25,7 @@ namespace NNY{
         void TextureManager::deleteTexture(std::string name){
             auto it = texture_map.find(name);
             if(it == texture_map.end()){
-                LOGLVL("[Warning] Deletion requested for texture which does not exist" , Log::Level::RENDERING)
+                M_LOGLVL("[Warning] Deletion requested for texture which does not exist" , Log::Level::RENDERING)
                     return;
             }
             deleteTexture(it->second);

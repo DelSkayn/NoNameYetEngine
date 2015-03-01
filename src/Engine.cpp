@@ -16,12 +16,14 @@ namespace NNY{
     Physics::PhysicsEngine * Engine::physics_engine;
     Core::Console * Engine::console;
     AbstractGame * Engine::game;
+    bool Engine::initialized = false;
+
 
     void Engine::start(){
         //Init Sdl and test if init was succesful
         if(!glfwInit()){ 
-            LOG("[Error] Could not init glfw");
-            //TODO expant sdl error logging
+            M_LOG("[Error] Could not init glfw")
+                //TODO expant sdl error logging
         }
 
         current_window = new Core::Window();
@@ -30,28 +32,37 @@ namespace NNY{
         Core::Input::init();
 
         render_engine = new Render::RenderEngine();
-
         physics_engine = new Physics::PhysicsEngine();
-
         console = new Core::Console();
 
+        initialized = true;
     }
 
+    /*
+     * Start Egine loop 
+     */
     void Engine::run(){
-        if(render_engine->ready()){
-            Core::Kernel::run();
+        if(initialized){
+            if(render_engine->ready()){
+                Core::Kernel::run();
+            }else{
+                M_LOG("Engine could not init")
+            }
         }else{
-            LOG("Engine could not init")
+            M_LOGLVL("[Error] Please call Engine::init before start",Log::Level::ALL)
         }
     }
 
     void Engine::clean(){
-        delete(console);
-        delete(physics_engine);
-        delete(render_engine);
-        delete(current_window);
-        delete(game);
-        glfwTerminate();
+        if(initialized){
+            delete(console);
+            delete(physics_engine);
+            delete(render_engine);
+            delete(current_window);
+            delete(game);
+            glfwTerminate();
+            initialized = false;
+        }
     }
 
     void Engine::setGame(AbstractGame * game){

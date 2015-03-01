@@ -25,8 +25,16 @@ namespace NNY{
                 unsigned int getHeight() const;
                 unsigned int getWidth() const;
 
+                /*
+                 * Actually resizes the window 
+                 * TODO Add system for notifing window resize
+                 */
                 void resize() const;
 
+                /*
+                 * Swaps window buffers and thus displays the 
+                 * new frame
+                 */
                 void update() const;
 
                 bool isInitalized() const;

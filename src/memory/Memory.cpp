@@ -1,7 +1,15 @@
 #include "Memory.h"
 
-unsigned int Memory::mem_allocated = 0;
+#include <cstdlib>
 
-unsigned int Memory::getAllocatedMemory(){
-    return mem_allocated;
+namespace NNY{
+    namespace Mem{
+
+        size_t Memory::mem_allocated;
+
+        size_t Memory::getAllocatedMemory(){
+            return mem_allocated;
+        }
+
+    }
 }
