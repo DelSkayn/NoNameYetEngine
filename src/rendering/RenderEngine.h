@@ -22,7 +22,6 @@ namespace NNY{
             RenderQueue & getRenderQueue();
             private:
             RenderQueue render_que;
-            Scene * current_scene;
             bool glew_inited;
             bool ogl_version_supported;
         };

@@ -11,12 +11,42 @@
 
 namespace NNY{
     namespace Render{
+        Uniform::Uniform(){
+            uni = -1;
+        }
+
+        Uniform::Uniform(const Shader * shader,const std::string name){
+            uni = glGetUniformLocation(shader->program,name.c_str());
+        }
+
+        void Uniform::setMatrix4f(const Matrix4f & mat){
+            glUniformMatrix4fv(uni,1,GL_FALSE,mat[0]);
+        }
+
+        void Uniform::setFloat(const float & value){
+            glUniform1f(uni,value);
+        }
 
         std::map<HName,Shader> ShaderManager::shader_map;
 
         void ShaderManager::LoadShader(std::string vertexPath,std::string fragmentPath,std::string name){
 
             std::ifstream in;
+            in.open(SHADER_PATH "VertexHeader.glsl");
+
+            //check if file is readable
+            if(!in.is_open()){
+                M_LOGLVL("[warning] shader file cant be found: " + vertexPath, Log::Level::RENDERING)
+                    return;
+            }
+            std::string vertexScource;
+            std::string line;
+            while(!in.eof()){
+                std::getline(in,line);
+                vertexScource.append(line + "\n");
+                //line.clear()
+            }
+            in.close();
             in.open(SHADER_PATH + vertexPath);
 
             //check if file is readable
@@ -26,8 +56,6 @@ namespace NNY{
             }
 
             //loads vertex scource
-            std::string vertexScource;
-            std::string line;
             while(!in.eof()){
                 std::getline(in,line);
                 vertexScource.append(line + "\n");
@@ -35,7 +63,7 @@ namespace NNY{
             }
             in.close();
 
-            in.open(SHADER_PATH + fragmentPath);
+            in.open(SHADER_PATH "FragmentHeader.glsl");
 
             if(!in.is_open()){
                 M_LOGLVL("[warning] shader file cant be found: " + fragmentPath, Log::Level::RENDERING)
@@ -43,6 +71,19 @@ namespace NNY{
             }
 
             std::string fragmentScource;
+            while(!in.eof()){
+                std::getline(in,line);
+                fragmentScource.append(line + "\n");
+                //line.clear()
+            }
+            in.close();
+            in.open(SHADER_PATH + fragmentPath);
+
+            if(!in.is_open()){
+                M_LOGLVL("[warning] shader file cant be found: " + fragmentPath, Log::Level::RENDERING)
+                    return;
+            }
+
             while(!in.eof()){
                 std::getline(in,line);
                 fragmentScource.append(line + "\n");
@@ -106,7 +147,7 @@ namespace NNY{
 
             glLinkProgram(s.program);
 
-            compiled = 0;
+            compiled = -1;
             glGetProgramiv(s.program,GL_LINK_STATUS, &compiled);
             if(compiled == GL_FALSE){
                 GLint maxLength = 0;

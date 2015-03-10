@@ -3,12 +3,13 @@
 #include <GL/glew.h>
 
 #include "../Engine.h"
-#include "../util/Log.h"
+#include "../util/Log.h" 
 #include "Mesh.h"
 #include "Texture.h"
 #include "Shader.h"
 #include "RenderQueue.h" 
 #include "../util/Log.h" 
+#include "../util/Profile.h"
 
 namespace NNY{
     namespace Render{
@@ -90,14 +91,12 @@ namespace NNY{
             Matrix4d viewMatrix = render_que.current_camera.getView();
 
             glUseProgram(shader.program);
-
-            glUniformMatrix4fv(render_que.Puniform,1,GL_FALSE,projection[0]);
+            render_que.P.setMatrix4f(projection);
 
             for(unsigned int i = 0;i < list.size();i++){
-                glUniformMatrix4fv(render_que.MVPuniform,1,GL_FALSE
-                        ,Matrix4f(camMatrix  * list[i].ModelMat)[0]);
-                glUniformMatrix4fv(render_que.MVuniform,1,GL_FALSE
-                        ,Matrix4f(viewMatrix * list[i].ModelMat)[0]);
+                Matrix4d & modelMatrix = list[i].ModelMat;
+                render_que.MV.setMatrix4f(Matrix4f(viewMatrix * modelMatrix));
+                render_que.MVP.setMatrix4f(Matrix4f(camMatrix * modelMatrix));
 
                 glBindVertexArray(list[i].m->vao);
                 glDrawElements(GL_TRIANGLES,list[i].m->indexsize,GL_UNSIGNED_INT,0);

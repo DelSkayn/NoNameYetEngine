@@ -16,9 +16,9 @@ namespace NNY{
 
         void RenderQueue::setShader(Shader * shader){
             this->defaultShader = shader;
-            this->MVPuniform = glGetUniformLocation(defaultShader->program,"uni_MVPMat");
-            this->Puniform = glGetUniformLocation(defaultShader->program,"uni_PMat");
-            this->MVuniform = glGetUniformLocation(defaultShader->program,"uni_MVMat");
+            MVP = Uniform(shader,"NNY_MVPMat");
+            MV = Uniform(shader,"NNY_MVMat");
+            P = Uniform(shader,"NNY_PMat");
         }
 
         void RenderQueue::clearList(){

@@ -360,7 +360,7 @@ template<typename D>
 Matrix<T,I>::Matrix(const Matrix<D,I> & other){
     for(unsigned int i = 0;i < I;i++){
         for(unsigned int j = 0;j < I;j++){
-            (*this)[i][j] = (T)other[i][j];
+            (*this)[i][j] = (T) other[i][j];
         }
     }
 }
@@ -381,6 +381,16 @@ Matrix<T,I>::Matrix(const Matrix<T,D> & other){
         }
     }
 }
+
+/*template<typename T,unsigned int I>
+template<typename D>
+Matrix<T,I>::Matrix(const Matrix<D,I> & other){
+    for(unsigned int i = 0;i < I;i++){
+        for(unsigned int j = 0;j < I;j++){
+            m[i][j] = (T) other.m[i][j];
+        }
+    }
+}*/
 
 template<typename T,unsigned int I>
 Matrix<T,I> & Matrix<T,I>::toIdentity(){

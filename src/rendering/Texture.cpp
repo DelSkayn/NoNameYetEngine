@@ -5,7 +5,6 @@
 #include <string>
 
 #include "../util/Log.h"
-
 namespace NNY{
     namespace Render{
 
