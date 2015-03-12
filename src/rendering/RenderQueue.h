@@ -22,7 +22,7 @@ namespace NNY{
             Uniform MVP;
             Uniform P;
             Uniform MV;
-            Shader * normal_pass;
+            Shader * defaultShader;
             Shader * directional_light; 
             Shader * spot_light; 
             Shader * point_light; 

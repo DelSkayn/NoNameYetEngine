@@ -68,6 +68,10 @@ Smith-Schlick-GGX:
 
 F = F0 + (1 - F0)(1 - (v.h))^5
 
+## Metalness
+
+A Metals do not refract light thus there is no diffuse thus metalness
+parameter should be an interpolation between diffuse and no diffuse 
 
 For more info:
 www.graphicrants.blogspot.fr/2013/08/specular-brdf-reference.html

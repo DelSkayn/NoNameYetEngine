@@ -22,7 +22,7 @@ namespace NNY{
                     if(capasity - offset < sizeof(T)){
                         resize(sizeof(T));
                     }
-                    T * res = static_cast<T*> start_buffer + offset;
+                    T * res = static_cast<T*>(start_buffer + offset);
                     offset += sizeof(T);
                     return res;
                 }
@@ -37,7 +37,7 @@ namespace NNY{
                 template<typename T>
                 T * allocate(T && obj);
 
-                void * allocate(std::size_t size,std::size_t num):
+                void * allocate(std::size_t size,std::size_t num);
             private:
                 void resize(std::size_t size);
                 void * start_buffer;
