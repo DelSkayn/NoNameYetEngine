@@ -19,7 +19,7 @@ namespace NNY{
             GLuint vbo;
             GLuint tbo;
             GLuint vao;
-            unsigned int indexsize;
+            unsigned int index_size;
         };
 
 

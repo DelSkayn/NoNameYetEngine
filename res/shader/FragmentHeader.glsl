@@ -1,4 +1,4 @@
-#version 330
+#version 430
 
 uniform sampler2D NNY_Tex_Diffuse0;
 uniform sampler2D NNY_Tex_Normal;

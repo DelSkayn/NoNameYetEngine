@@ -73,45 +73,45 @@ namespace NNY{
 
             //load default values for rescources
             MeshManager::init();
+
+            render_que = new RenderQueue();
         }
 
         RenderEngine::~RenderEngine(){
             MeshManager::clean();
             ShaderManager::clean();
             TextureManager::clean();
+            delete(render_que);
         }
 
         void RenderEngine::render() {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            Shader & shader = *(render_que.defaultShader);
-            auto & list = render_que.render_list;
-            Matrix4d camMatrix = render_que.current_camera.getViewProjection();
-            Matrix4f projection = Matrix4f(render_que.current_camera.getProjection());
-            Matrix4d viewMatrix = render_que.current_camera.getView();
+            Shader & shader = *(render_que->defaultShader);
+            Matrix4f projection = Matrix4f(render_que->current_camera.getProjection());
+            Matrix4d viewMatrix = render_que->current_camera.getView();
 
             glUseProgram(shader.program);
-            render_que.P.setMatrix4f(projection);
+
+            render_que->bindBuffer();
+
+            glBindVertexArray(MeshManager::getMesh("t")->vao);
+
+            render_que->P.setMatrix4f(projection);
+            render_que->V.setMatrix4f(Matrix4f(viewMatrix));
             
-            for(unsigned int i = 0;i < list.size();i++){
-                Matrix4d & modelMatrix = list[i].ModelMat;
-                render_que.MV.setMatrix4f(Matrix4f(viewMatrix * modelMatrix));
-                render_que.MVP.setMatrix4f(Matrix4f(camMatrix * modelMatrix));
+            glMultiDrawElementsIndirect(GL_TRIANGLES,GL_UNSIGNED_INT,NULL,render_que->command_list.size(),0);
 
-                glBindVertexArray(list[i].m->vao);
-
-                glDrawElements(GL_TRIANGLES,list[i].m->indexsize,GL_UNSIGNED_INT,0);
-            }
             glBindVertexArray(0);
             glUseProgram(0);
-            render_que.clearList();
+            render_que->clear();
         }
 
         bool RenderEngine::ready() const {
             return glew_inited && ogl_version_supported;
         }
 
-        RenderQueue & RenderEngine::getRenderQueue(){
+        RenderQueue * RenderEngine::getRenderQueue(){
             return render_que;
         }
     }

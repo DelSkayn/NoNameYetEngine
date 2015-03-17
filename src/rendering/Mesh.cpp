@@ -361,7 +361,7 @@ namespace NNY{
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-            m.indexsize = mr.indexsize;
+            m.index_size = mr.indexsize;
         }
 
         void MeshManager::unloadMesh(Mesh & m){

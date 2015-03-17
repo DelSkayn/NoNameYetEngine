@@ -3,8 +3,8 @@
 #include <GL/glew.h>
 #include "core/Kernel.h"
 
-#define OGL_VERSION_MAJOR_REQUIRED 3
-#define OGL_VERSION_MINOR_REQUIRED 2 
+#define OGL_VERSION_MAJOR_REQUIRED 4
+#define OGL_VERSION_MINOR_REQUIRED 3 
 
 #include "AbstractGame.h" 
 

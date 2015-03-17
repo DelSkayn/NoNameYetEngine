@@ -31,7 +31,7 @@ void TestGame::init(){
 }
 
 void TestGame::render(RenderEngine * re){
-    Camera & cam = re->getRenderQueue().getCamera();
+    Camera & cam = re->getRenderQueue()->getCamera();
        for(unsigned int i = 0;i < NUMBER_TEAPOT;i++){
            RenderObject obj;
            obj.m = MeshManager::getMesh("t");
@@ -40,11 +40,11 @@ void TestGame::render(RenderEngine * re){
                place[i*3+1],
                place[i*3+2]
            ));
-           re->getRenderQueue().addRenderObj(obj);
+           re->getRenderQueue()->addRenderObj(obj);
        }
     RenderObject obj;
     obj.m = MeshManager::getMesh("t");
-    re->getRenderQueue().addRenderObj(obj);
+    re->getRenderQueue()->addRenderObj(obj);
 
 
     Quaterniond quat1(Vector3d(0,1,0),Mouse::x /300);
@@ -79,7 +79,7 @@ void TestGame::render(RenderEngine * re){
     if(Keyboard::isKeyPressed(GLFW_KEY_T)){
         Mouse::grabMouse(false);
     }
-    re->getRenderQueue().setShader(ShaderManager::getShader("s"));
+    re->getRenderQueue()->setShader(ShaderManager::getShader("s"));
 }
 
 void TestGame::update(NNY::Physics::PhysicsEngine * pe){

@@ -19,9 +19,9 @@ namespace NNY{
             void render();
 
             bool ready() const;
-            RenderQueue & getRenderQueue();
+            RenderQueue * getRenderQueue();
             private:
-            RenderQueue render_que;
+            RenderQueue * render_que;
             bool glew_inited;
             bool ogl_version_supported;
         };
