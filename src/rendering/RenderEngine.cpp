@@ -92,13 +92,14 @@ namespace NNY{
 
             glUseProgram(shader.program);
             render_que.P.setMatrix4f(projection);
-
+            
             for(unsigned int i = 0;i < list.size();i++){
                 Matrix4d & modelMatrix = list[i].ModelMat;
                 render_que.MV.setMatrix4f(Matrix4f(viewMatrix * modelMatrix));
                 render_que.MVP.setMatrix4f(Matrix4f(camMatrix * modelMatrix));
 
                 glBindVertexArray(list[i].m->vao);
+
                 glDrawElements(GL_TRIANGLES,list[i].m->indexsize,GL_UNSIGNED_INT,0);
             }
             glBindVertexArray(0);

@@ -26,7 +26,7 @@ void TestGame::init(){
     MeshManager::loadMesh("teapot.obj","t");
     ShaderManager::LoadShader("pv.glsl","p.glsl","s");
     for(unsigned int i = 0;i < NUMBER_TEAPOT*3;i++){
-        this->place[i] = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX)) * 100;
+        this->place[i] = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX)) * 40;
     }
 }
 
@@ -72,6 +72,12 @@ void TestGame::render(RenderEngine * re){
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_ESCAPE)){
         Kernel::quit();
+    }
+    if(Keyboard::isKeyPressed(GLFW_KEY_G)){
+        Mouse::grabMouse(true);
+    }
+    if(Keyboard::isKeyPressed(GLFW_KEY_T)){
+        Mouse::grabMouse(false);
     }
     re->getRenderQueue().setShader(ShaderManager::getShader("s"));
 }

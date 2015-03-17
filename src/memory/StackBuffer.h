@@ -22,7 +22,7 @@ namespace NNY{
                     if(capasity - offset < sizeof(T)){
                         resize(sizeof(T));
                     }
-                    T * res = static_cast<T*>(start_buffer + offset);
+                    T * res = static_cast<T*> (start_buffer + offset);
                     offset += sizeof(T);
                     return res;
                 }

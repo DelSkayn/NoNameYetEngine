@@ -29,6 +29,7 @@ namespace NNY{
             Shader * base_material;
             Camera current_camera;        
             std::vector<RenderObject> render_list;
+            std::vector<> light_list;
         };
     }
 }
