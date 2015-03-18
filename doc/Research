@@ -24,7 +24,7 @@ Cook-Torrance specular
 
 So Cook Torrance is somewhat more diffecult.
 The basic function is as follow:
-f = (D * F * G) / (4* (N.L) * (N.V));
+f = (D * F * G) / (4 * (N.L) * (N.V));
 
 where:
 f = the specular
