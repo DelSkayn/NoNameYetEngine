@@ -93,9 +93,9 @@ namespace NNY{
 
             glUseProgram(shader.program);
 
+            glBindVertexArray(MeshManager::getMesh("t")->vao);
             render_que->bindBuffer();
 
-            glBindVertexArray(MeshManager::getMesh("t")->vao);
 
             render_que->P.setMatrix4f(projection);
             render_que->V.setMatrix4f(Matrix4f(viewMatrix));
