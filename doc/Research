@@ -2,7 +2,7 @@ Shading:
 
 Basic fragment color equation:
 
-Color = Ambient * diffuse * specular * diffuseColor
+Color = (N.L) diffuse * specular * diffuseColor
 
 Lambert diffuse:
 
@@ -11,7 +11,7 @@ gives good results. There are other diffuse reflections functions,
 but they are not really worth the extra cost. (differences in how
 not shiny an object is hard to see)
 
-Id = (L.N)*C*Il
+Id = C*Il
 
 Id = the intesity of the reflected light
 L = the normalized light direction pointing from the surfuce to the light source

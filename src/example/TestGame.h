@@ -2,7 +2,7 @@
 #define TESTGAME_H
 
 #include "../AbstractGame.h"
-#define NUMBER_TEAPOT 2001
+#define NUMBER_TEAPOT 1
 
 /*
  * A Very basic example to test the Engine

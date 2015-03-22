@@ -24,6 +24,7 @@ namespace NNY{
             RenderQueue * render_que;
             bool glew_inited;
             bool ogl_version_supported;
+            float time;
         };
     }
 }

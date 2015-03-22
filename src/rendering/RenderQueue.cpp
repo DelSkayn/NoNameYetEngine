@@ -36,6 +36,7 @@ namespace NNY{
             glShaderStorageBlockBinding(defaultShader->program,block_index,0);
             V = Uniform(shader,"NNY_VMat");
             P = Uniform(shader,"NNY_PMat");
+            time = Uniform(shader, "time");
         }
 
         void RenderQueue::bindBuffer(){
