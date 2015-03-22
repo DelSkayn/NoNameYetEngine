@@ -1,5 +1,6 @@
 #include "RenderQueue.h" 
 #include "Shader.h" 
+#include "../util/Log.h"
 
 #include "Mesh.h"
 #include <GL/glew.h>
@@ -33,19 +34,20 @@ namespace NNY{
         void RenderQueue::setShader(Shader * shader){
             this->defaultShader = shader;
             block_index = glGetProgramResourceIndex(defaultShader->program,GL_SHADER_STORAGE_BLOCK, "NNY_mmat");
-            glShaderStorageBlockBinding(defaultShader->program,block_index,0);
+            glShaderStorageBlockBinding(defaultShader->program,block_index,2);
             V = Uniform(shader,"NNY_VMat");
             P = Uniform(shader,"NNY_PMat");
-            time = Uniform(shader, "time");
         }
 
         void RenderQueue::bindBuffer(){
             GLuint * array = new GLuint[command_list.size()]();
+            
             for(GLuint i = 0;i < command_list.size();++i){
                 array[i] = i;
             }
+
             glBindBuffer(GL_ARRAY_BUFFER,draw_id_buffer);
-            glBufferData(GL_ARRAY_BUFFER,command_list.size(),array,GL_DYNAMIC_COPY);
+            glBufferData(GL_ARRAY_BUFFER,command_list.size()*sizeof(unsigned int),array,GL_DYNAMIC_COPY);
 
             glEnableVertexAttribArray(10);
             glVertexAttribIPointer(10,1,GL_UNSIGNED_INT,0,0);
@@ -53,9 +55,11 @@ namespace NNY{
 
             glBindBuffer(GL_SHADER_STORAGE_BUFFER,shader_buffer);
             glBufferData(GL_SHADER_STORAGE_BUFFER,matrix_render_list.size()*sizeof(Matrix4f),&matrix_render_list[0],GL_DYNAMIC_COPY);
+            glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 2, shader_buffer);
                
             glBindBuffer(GL_DRAW_INDIRECT_BUFFER, command_buffer);
             glBufferData(GL_DRAW_INDIRECT_BUFFER,command_list.size() * sizeof(DrawCommandStruct),&command_list[0],GL_DYNAMIC_COPY);
+
 
         }
 

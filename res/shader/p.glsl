@@ -1,6 +1,6 @@
 #define M_PI 3.1415926535897932384626433832795
 
-uniform float NNY_metalness = 1.0;
+uniform float NNY_metalness = 0.0;
 uniform vec3 NNY_specColor = vec3(1.0,0.86,0.57);
 
 

@@ -36,7 +36,6 @@ namespace NNY{
                 GLuint command_buffer;
                 Uniform V;
                 Uniform P;
-                Uniform time;
                 Shader * defaultShader;
                 Shader * directional_light; 
                 Shader * spot_light; 

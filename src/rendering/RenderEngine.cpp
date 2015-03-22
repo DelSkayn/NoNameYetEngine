@@ -1,7 +1,6 @@
 #include "RenderEngine.h"
 
-#include <GL/glew.h>
-
+#include <GL/glew.h> 
 #include "../Engine.h"
 #include "../util/Log.h" 
 #include "Mesh.h"
@@ -75,7 +74,6 @@ namespace NNY{
             MeshManager::init();
 
             render_que = new RenderQueue();
-            time = 0;
         }
 
         RenderEngine::~RenderEngine(){
@@ -100,14 +98,12 @@ namespace NNY{
 
             render_que->P.setMatrix4f(projection);
             render_que->V.setMatrix4f(Matrix4f(viewMatrix));
-            render_que->time.setFloat(time);
             
             glMultiDrawElementsIndirect(GL_TRIANGLES,GL_UNSIGNED_INT,NULL,render_que->command_list.size(),0);
 
             glBindVertexArray(0);
             glUseProgram(0);
             render_que->clear();
-            time += 0.01;
         }
 
         bool RenderEngine::ready() const {
