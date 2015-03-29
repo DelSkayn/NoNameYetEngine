@@ -12,7 +12,7 @@
 namespace NNY{
 
     Core::Window * Engine::current_window;
-    Render::AbstractRenderEngine * Engine::render_engine;
+    Render::BaseRenderEngine * Engine::render_engine;
     Physics::PhysicsEngine * Engine::physics_engine;
     Core::Console * Engine::console;
     AbstractGame * Engine::game;

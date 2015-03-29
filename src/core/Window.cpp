@@ -83,8 +83,8 @@ namespace NNY{
         }
 
         void Window::create(){
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, OGL_VERSION_MAJOR_REQUIRED);
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, OGL_VERSION_MINOR_REQUIRED);
+            //glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, OGL_VERSION_MAJOR_REQUIRED);
+            //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, OGL_VERSION_MINOR_REQUIRED);
 
             glfwWindowHint(GLFW_VISIBLE, GL_TRUE);
             glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);

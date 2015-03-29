@@ -1,4 +1,4 @@
-#include "AbstractRenderEngine.h"
+#include "BaseRenderEngine.h"
 
 #include <GL/glew.h>
 
@@ -6,11 +6,33 @@
 
 namespace NNY{
     namespace Render{
-        bool AbstractRenderEngine::glew_inited = false;
+        bool BaseRenderEngine::glew_inited = false;
 
-        AbstractRenderEngine::~AbstractRenderEngine(){}
+        BaseRenderEngine::~BaseRenderEngine(){}
 
-        bool AbstractRenderEngine::initGLEW(){
+        void BaseRenderEngine::addRenderObj(const RenderObject & ro){
+        }
+
+        void BaseRenderEngine::addRenderObj(const RenderObject * ro,unsigned int amount){
+        }
+
+        void BaseRenderEngine::setShader(Shader * shader){}
+
+        Camera & BaseRenderEngine::getCamera(){
+            //refs cant be null 
+            //so return an unused cam 
+            static Camera cam;
+            return cam;
+        }
+
+        bool BaseRenderEngine::ready() const{
+            return true;//stub engine is always ready... always
+        }
+
+        void BaseRenderEngine::render(){
+        }
+
+        bool BaseRenderEngine::initGLEW(){
             if(!glew_inited){
                 glewExperimental = true;
                 GLenum glewerr = glewInit(); 
@@ -29,12 +51,12 @@ namespace NNY{
             return true;
         }
 
-        void AbstractRenderEngine::getOGLVersion(OGLVersion & version){
+        void BaseRenderEngine::getOGLVersion(OGLVersion & version){
             glGetIntegerv(GL_MAJOR_VERSION,&version.major);
             glGetIntegerv(GL_MINOR_VERSION,&version.minor);
         }
 
-        bool AbstractRenderEngine::checkVersion(const OGLVersion & version,int major,int minor){
+        bool BaseRenderEngine::checkVersion(const OGLVersion & version,int major,int minor){
             if( version.major < major){
                 return false;
             }else if(version.major== major){

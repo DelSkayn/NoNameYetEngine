@@ -21,6 +21,7 @@ namespace NNY{
             OGLVersion version;
             initGLEW();
             getOGLVersion(version);
+            M_LOGLVL_VALUES(Log::Level::RENDERING,"Found version, ", version.major, ",", version.minor )
             ogl_version_supported = checkVersion(version,4,3);
 
             if(ogl_version_supported){

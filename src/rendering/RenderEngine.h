@@ -3,7 +3,7 @@
 
 #include "RenderQueue.h" 
 
-#include "AbstractRenderEngine.h"
+#include "BaseRenderEngine.h"
 
 namespace NNY{
     namespace Core{
@@ -12,7 +12,7 @@ namespace NNY{
     namespace Render{
         class Scene;
 
-        class RenderEngine :public AbstractRenderEngine {
+        class RenderEngine :public BaseRenderEngine {
             public:
             RenderEngine();
             virtual ~RenderEngine();

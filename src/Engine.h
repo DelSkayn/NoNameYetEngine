@@ -12,7 +12,7 @@
 namespace NNY{
     //some forward declarations
     namespace Render{
-        class AbstractRenderEngine;
+        class BaseRenderEngine;
     }
     namespace Physics{ class PhysicsEngine;
     }
@@ -37,7 +37,7 @@ namespace NNY{
 
         private:
         static Core::Window * current_window;
-        static Render::AbstractRenderEngine * render_engine;
+        static Render::BaseRenderEngine * render_engine;
         static Physics::PhysicsEngine * physics_engine;
         static Core::Console * console;
         static AbstractGame * game;
