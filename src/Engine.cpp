@@ -12,12 +12,11 @@
 namespace NNY{
 
     Core::Window * Engine::current_window;
-    Render::RenderEngine * Engine::render_engine;
+    Render::AbstractRenderEngine * Engine::render_engine;
     Physics::PhysicsEngine * Engine::physics_engine;
     Core::Console * Engine::console;
     AbstractGame * Engine::game;
     bool Engine::initialized = false;
-
 
     void Engine::start(){
         //Init Sdl and test if init was succesful

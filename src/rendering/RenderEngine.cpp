@@ -15,65 +15,36 @@ namespace NNY{
 
         RenderEngine::RenderEngine(){ //request opengl version 3.2
 
-
-            //create window and context
-
-            glewExperimental = true;
             //init glew
-            GLenum glewerr = glewInit(); 
-            if(glewerr != GLEW_OK){
-                M_LOGLVL("[error] glew init failed",Log::Level::RENDERING)
-                    if(glewerr == GLEW_ERROR_NO_GL_VERSION){ 
-                        M_LOGLVL("    No OGL version found",Log::Level::RENDERING) 
-                    }else { 
-                        M_LOGLVL("    OGL version not supported",Log::Level::RENDERING)
-                    }
-                glew_inited = false;
-            }else{
-                glew_inited = true;
-            }
 
             //check the actual version of ogl
-            GLint oglVersionMajor,oglVersionMinor;
+            OGLVersion version;
+            initGLEW();
+            getOGLVersion(version);
+            ogl_version_supported = checkVersion(version,4,3);
 
-            glGetIntegerv(GL_MAJOR_VERSION,&oglVersionMajor);
-            glGetIntegerv(GL_MINOR_VERSION,&oglVersionMinor);
+            if(ogl_version_supported){
+                //set the clear color
+                glClearColor(0.0f,0.0f,0.0f,1.0f);
 
-            M_LOGLVL_VALUES(Log::Level::RENDERING,"[Message] Ogl version found",oglVersionMajor,",",oglVersionMinor)
-                if( oglVersionMajor < OGL_VERSION_MAJOR_REQUIRED){
-                    M_LOGLVL("    OGL version not supported",Log::Level::RENDERING)
-                        ogl_version_supported = false;
-                }else if(oglVersionMajor == OGL_VERSION_MAJOR_REQUIRED){
-                    if( oglVersionMinor < OGL_VERSION_MINOR_REQUIRED){
-                        M_LOGLVL("    OGL version not supported",Log::Level::RENDERING)
-                            ogl_version_supported = false;
-                    }else{
-                        ogl_version_supported = true;
-                    }
-                }else{
-                    ogl_version_supported = true;
-                    M_LOGLVL("    OGL version supported",Log::Level::RENDERING)
-                }
+                //enable back face culling    
+                glFrontFace(GL_CCW);
+                glCullFace(GL_BACK);
+                glEnable(GL_CULL_FACE);
 
-            //set the clear color
-            glClearColor(0.0f,0.0f,0.0f,1.0f);
+                //set depth testing
+                glDepthRange(0,1);
+                glEnable(GL_DEPTH_TEST);
 
-            //enable back face culling    
-            glFrontFace(GL_CCW);
-            glCullFace(GL_BACK);
-            glEnable(GL_CULL_FACE);
+                //clamp depth values 
+                //glEnable(GL_DEPTH_CLAMP);
 
-            //set depth testing
-            glDepthRange(0,1);
-            glEnable(GL_DEPTH_TEST);
+                //load default values for rescources
+                MeshManager::init();
 
-            //clamp depth values 
-            //glEnable(GL_DEPTH_CLAMP);
 
-            //load default values for rescources
-            MeshManager::init();
-
-            render_que = new RenderQueue();
+                render_que = new RenderQueue();
+            }
         }
 
         RenderEngine::~RenderEngine(){
@@ -84,34 +55,47 @@ namespace NNY{
         }
 
         void RenderEngine::render() {
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            if(ogl_version_supported && glew_inited){
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            Shader & shader = *(render_que->defaultShader);
-            Matrix4f projection = Matrix4f(render_que->current_camera.getProjection());
-            Matrix4d viewMatrix = render_que->current_camera.getView();
+                Shader & shader = *(render_que->defaultShader);
+                Matrix4f projection = Matrix4f(render_que->current_camera.getProjection());
+                Matrix4d viewMatrix = render_que->current_camera.getView();
 
-            glUseProgram(shader.program);
+                glUseProgram(shader.program);
 
-            glBindVertexArray(MeshManager::getMesh("t")->vao);
-            render_que->bindBuffer();
+                glBindVertexArray(MeshManager::getMesh("t")->vao);
+                render_que->bindBuffer();
 
 
-            render_que->P.setMatrix4f(projection);
-            render_que->V.setMatrix4f(Matrix4f(viewMatrix));
-            
-            glMultiDrawElementsIndirect(GL_TRIANGLES,GL_UNSIGNED_INT,NULL,render_que->command_list.size(),0);
+                render_que->P.setMatrix4f(projection);
+                render_que->V.setMatrix4f(Matrix4f(viewMatrix));
 
-            glBindVertexArray(0);
-            glUseProgram(0);
-            render_que->clear();
+                glMultiDrawElementsIndirect(GL_TRIANGLES,GL_UNSIGNED_INT,NULL,render_que->command_list.size(),0);
+
+                glBindVertexArray(0);
+                glUseProgram(0);
+                render_que->clear();
+            }
         }
 
         bool RenderEngine::ready() const {
-            return glew_inited && ogl_version_supported;
+            return ogl_version_supported && glew_inited;
         }
 
-        RenderQueue * RenderEngine::getRenderQueue(){
-            return render_que;
+        Camera & RenderEngine::getCamera(){
+            return render_que->current_camera;
+        }
+
+        void RenderEngine::setShader(Shader * shader){
+            render_que->setShader(shader);
+        }
+
+        void RenderEngine::addRenderObj(const RenderObject & ro){
+            render_que->addRenderObj(ro);
+        }
+
+        void RenderEngine::addRenderObj(const RenderObject * ro, unsigned int amount){
         }
     }
 }

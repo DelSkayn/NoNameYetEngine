@@ -3,6 +3,8 @@
 
 #include "RenderQueue.h" 
 
+#include "AbstractRenderEngine.h"
+
 namespace NNY{
     namespace Core{
         class Console;
@@ -10,19 +12,24 @@ namespace NNY{
     namespace Render{
         class Scene;
 
-        class RenderEngine{
-            friend Core::Console;
+        class RenderEngine :public AbstractRenderEngine {
             public:
             RenderEngine();
-            ~RenderEngine();
+            virtual ~RenderEngine();
 
-            void render();
+            void render() override;
+            bool ready() const override;
 
-            bool ready() const;
-            RenderQueue * getRenderQueue();
+            virtual void addRenderObj(const RenderObject & ro) override;
+
+            virtual void addRenderObj(const RenderObject * ro,unsigned int amount) override;
+
+            Camera & getCamera() override;
+
+            void setShader(Shader * shader) override;
+
             private:
             RenderQueue * render_que;
-            bool glew_inited;
             bool ogl_version_supported;
         };
     }

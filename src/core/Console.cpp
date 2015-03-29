@@ -112,11 +112,11 @@ namespace NNY{
                         TextureManager::loadTexture(arguments[0],arguments[1]);
                         ),
                 MAP_FUNCTION(move,3,
-                        Camera & camera= Engine::render_engine->getRenderQueue()->getCamera();
+                        Camera & camera= Engine::render_engine->getCamera();
                         camera.setPosition(Misc::float_value_of(arguments[0]),Misc::float_value_of(arguments[1]),Misc::float_value_of(arguments[2]));
                         ),
                 MAP_FUNCTION(look,3,
-                        Camera & camera= Engine::render_engine->getRenderQueue()->getCamera();
+                        Camera & camera= Engine::render_engine->getCamera();
                         camera.lookAt(Misc::float_value_of(arguments[0]),Misc::float_value_of(arguments[1]),Misc::float_value_of(arguments[2]));
                         ),
                 MAP_FUNCTION(grab,0,
