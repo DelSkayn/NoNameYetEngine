@@ -12,6 +12,14 @@ namespace NNY{
     namespace Render{
         class Scene;
 
+        struct DrawCommandStruct{
+            GLuint vertex_count;
+            GLuint instance_count;
+            GLuint first_index;
+            GLint base_vertex;
+            GLuint base_instance;
+        };
+
         class RenderEngine :public BaseRenderEngine {
             public:
             RenderEngine();
@@ -24,13 +32,20 @@ namespace NNY{
 
             virtual void addRenderObj(const RenderObject * ro,unsigned int amount) override;
 
-            Camera & getCamera() override;
-
             void setShader(Shader * shader) override;
 
             private:
-            RenderQueue * render_que;
+            void bindCommandBuffer();
+
+
+            RenderQueue render_que;
             bool ogl_version_supported;
+            std::vector<DrawCommandStruct> command_list;
+            std::vector<Matrix4f> matrix_render_list;
+            GLuint shader_buffer;
+            GLuint draw_id_buffer;
+            GLuint block_index;
+            GLuint command_buffer;
         };
     }
 }

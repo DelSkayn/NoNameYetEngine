@@ -18,12 +18,6 @@ namespace NNY{
 
         void BaseRenderEngine::setShader(Shader * shader){}
 
-        Camera & BaseRenderEngine::getCamera(){
-            //refs cant be null 
-            //so return an unused cam 
-            static Camera cam;
-            return cam;
-        }
 
         bool BaseRenderEngine::ready() const{
             return true;//stub engine is always ready... always

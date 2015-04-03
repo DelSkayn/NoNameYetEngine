@@ -1,12 +1,15 @@
 #include "Camera.h"
 
 #include <cmath>
+#include <utility>
 
 #include"../util/Log.h"
 #include"../util/Math3D.h"
 
 namespace NNY{
     namespace Render{
+
+        Camera * Camera::current_camera = nullptr;
 
         Camera::Camera(float fov,float near,float far,float aspectRatio){
             perspective.toPerspective(fov,aspectRatio,near,far);
@@ -57,5 +60,14 @@ namespace NNY{
             Vector3d rotAxis = Vector3d(0,0,1).cross(forward).normalize();
             rotation = Quaterniond(rotAxis,rotAngle);
         }
+
+        void Camera::setAsCurrent(){
+            is_current = true;
+            if(current_camera != nullptr){
+                current_camera->is_current = false;
+            }
+            current_camera = this;
+        }
+
     }
 }

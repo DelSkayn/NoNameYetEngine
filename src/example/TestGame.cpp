@@ -30,8 +30,8 @@ void TestGame::init(){
     }
 }
 
-void TestGame::render(AbstractRenderEngine * re){
-    Camera & cam = re->getCamera();
+void TestGame::render(BaseRenderEngine * re){
+    Camera & cam = *Camera::current_camera; 
        for(unsigned int i = 0;i < NUMBER_TEAPOT;i++){
            RenderObject obj;
            obj.m = MeshManager::getMesh("t");

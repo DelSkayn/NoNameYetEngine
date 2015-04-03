@@ -13,10 +13,19 @@ namespace NNY{
                 Matrix4d getView() const;
                 void setPosition(double x,double y,double z);
                 void lookAt(double x,double y,double z);
+
+                void setPosition(Vector3d & rotation);
+
+                void setAsCurrent();
+
+                static Camera * current_camera;
+
                 Quaterniond rotation;
                 Vector3d position;
             private:
                 Matrix4d perspective;
+                bool is_current;
+
         };
     }
 }

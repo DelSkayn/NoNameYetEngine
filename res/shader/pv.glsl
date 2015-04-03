@@ -3,7 +3,7 @@ uniform vec3 Ligpos = vec3(0,0.0,0.0);
 
 layout (location = 10) in uint drawid;
 
-layout(std430, binding=2) buffer NNY_mmat{
+layout(std430, binding=1) buffer NNY_mmat{
     mat4 NNY_MMat[];
 };
 

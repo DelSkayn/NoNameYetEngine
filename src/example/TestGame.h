@@ -11,7 +11,7 @@ class TestGame : public AbstractGame{
     public:
         ~TestGame();
         void init() override;
-        void render(NNY::Render::AbstractRenderEngine * re) override;
+        void render(NNY::Render::BaseRenderEngine * re) override;
         void update(NNY::Physics::PhysicsEngine * pe) override;
         void clean() override;
     private:

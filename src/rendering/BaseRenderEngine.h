@@ -46,8 +46,6 @@ namespace NNY{
                  */
                 virtual bool ready() const;
 
-                virtual Camera & getCamera();
-
                 virtual void setShader(Shader * shader);
 
                 static void getOGLVersion(OGLVersion & version);
