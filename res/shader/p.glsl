@@ -33,32 +33,18 @@ void main(){
 
     //temp G term
     float k = alpha /2;
-<<<<<<< HEAD
-    float NdotL = clamp(dot(N,L),0,1);
-    float NdotV = clamp(dot(N,V),0,1);
-=======
     float NdotL = clamp(dot(N,L),0.0,1.0);
     float NdotV = clamp(dot(N,V),0.0,1.0);
->>>>>>> c3442bab1e57292fc1538c0375d86e917d800214
     float G1 = NdotV / (NdotV * (1.0 -k) + k);
     float G2 = NdotL / (NdotL * (1.0 -k) + k);
     vec3 G = vec3(clamp(G1*G2,0.0,1.0));
     
-<<<<<<< HEAD
-    vec3 specular =  (D * F * G) / (4 * NdotV * NdotL);
-
-=======
     vec3 specular =(D * F* G) / (4 * dot(N,L)*dot(N,V));
->>>>>>> c3442bab1e57292fc1538c0375d86e917d800214
     vec3 diffuse = vec3(NNY_Reflectance/M_PI);
     diffuse = NNY_specColor * diffuse * NdotL;
 
     vec3 lightColor = specular + mix(diffuse,vec3(0,0,0),NNY_metalness);
 
-<<<<<<< HEAD
-    color = vec4(lightColor,0);
-=======
     color = vec4(lightColor*NNY_specColor,0);
 
->>>>>>> c3442bab1e57292fc1538c0375d86e917d800214
 }
