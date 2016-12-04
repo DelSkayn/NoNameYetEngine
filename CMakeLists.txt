@@ -90,6 +90,7 @@ include_directories(
 	${OPENGL_INCLUDE_DIRS}
 	${GLEW_INCLUDE_DIRS}
     ${GLFW_INCLUDE_DIRS}
+    ${SOIL_INCLUDE_DIR}
 )
 
 # Define the link libraries

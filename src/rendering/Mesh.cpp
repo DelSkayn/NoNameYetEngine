@@ -9,6 +9,15 @@
 namespace NNY{
     namespace Render{
 
+        Mesh::Mesh(){
+            this->vbo = 0;
+            this->nbo = 0;
+            this->tabo = 0;
+            this->ibo = 0;
+            this->tbo = 0;
+            this->vao = 0;
+        }
+
         Mesh::Mesh( std::vector<Vector3f> vertex
                 , std::vector<Vector3f> tangent
                 , std::vector<Vector3f> normals
@@ -23,6 +32,12 @@ namespace NNY{
             this->index = index;
             this->material_id = material_id;
 
+            this->vbo = 0;
+            this->nbo = 0;
+            this->tabo = 0;
+            this->ibo = 0;
+            this->tbo = 0;
+            this->vao = 0;
         }
 
         Mesh::~Mesh(){
@@ -74,7 +89,7 @@ namespace NNY{
 
             glBindBuffer(GL_ARRAY_BUFFER, this->tabo);
             glEnableVertexAttribArray(3); // texture coords on loaction 1
-            glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
+            glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ibo);
@@ -88,17 +103,26 @@ namespace NNY{
         }
 
         void Mesh::unload(){
-            glDeleteBuffers(1,&this->vbo);
-            this->vbo = 0;
-            glDeleteBuffers(1,&this->nbo);
-            this->nbo = 0;
-            glDeleteBuffers(1,&this->tbo);
-            this->tbo = 0;
-            glDeleteBuffers(1,&this->ibo);
-            this->ibo = 0;
-
-            glDeleteVertexArrays(1,&this->vao);
-            this->vao = 0;
+            if(this->vbo){
+                glDeleteBuffers(1,&this->vbo);
+                this->vbo = 0;
+            }
+            if(this->nbo){
+                glDeleteBuffers(1,&this->nbo);
+                this->nbo = 0;
+            }
+            if(this->tbo){
+                glDeleteBuffers(1,&this->tbo);
+                this->tbo = 0;
+            }
+            if(this->ibo){
+                glDeleteBuffers(1,&this->ibo);
+                this->ibo = 0;
+            }
+            if(this->vao){
+                glDeleteVertexArrays(1,&this->vao);
+                this->vao = 0;
+            }
         }
     }
 }

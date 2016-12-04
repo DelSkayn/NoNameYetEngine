@@ -56,7 +56,7 @@ RenderEngine::RenderEngine(){ //request opengl version 3.2
                 }
 
             //set the clear color
-            glClearColor(0.0f,0.0f,0.0f,1.0f);
+            glClearColor(0.0f,0.0f,1.0f,1.0f);
 
             //enable back face culling    
             glFrontFace(GL_CCW);
@@ -87,13 +87,15 @@ RenderEngine::RenderEngine(){ //request opengl version 3.2
             Matrix4f viewMatrix = Matrix4f(this->camera.getView());
 
             glUseProgram(this->geometry_shader->program);
-            this->geometry_shader->get_uniform("NNY_PMat")->setMatrix4f(projection);
-            this->geometry_shader->get_uniform("NNY_MVMat")->setMatrix4f(viewMatrix);
-            this->geometry_shader->get_uniform("NNY_MVPMat")->setMatrix4f(camMatrix);
+            this->geometry_shader->get_uniform("PMat")->set_matrix4f(projection);
+            this->geometry_shader->get_uniform("MVMat")->set_matrix4f(viewMatrix);
+            this->geometry_shader->get_uniform("MVPMat")->set_matrix4f(camMatrix);
 
-            Uniform * roughness = this->geometry_shader->get_uniform("NNY_roughness");
-            Uniform * metalness = this->geometry_shader->get_uniform("NNY_metalness");
-            Uniform * diffuse = this->geometry_shader->get_uniform("NNY_diffuse");
+            Uniform * roughness = this->geometry_shader->get_uniform("roughness");
+            Uniform * metalness = this->geometry_shader->get_uniform("metalness");
+            Uniform * diffuse = this->geometry_shader->get_uniform("diffuse");
+            Uniform * albedo_texture = this->geometry_shader->get_uniform("albedo_texture");
+            Uniform * roughness_texture = this->geometry_shader->get_uniform("roughness_texture");
 
             // make sure the last material is not the material of the first mesh
             unsigned int last_material = scene->meshes[0].material_id + 1;
@@ -101,8 +103,23 @@ RenderEngine::RenderEngine(){ //request opengl version 3.2
                 if(m.material_id != last_material){
                     last_material = m.material_id;
                     Material & mat = scene->materials[m.material_id];
-                    roughness->setFloat(mat.roughness);
-                    metalness->setFloat(mat.metalness);
+                    roughness->set_float(mat.roughness);
+                    metalness->set_float(mat.metalness);
+
+                    // set texture 
+                    if(mat.albedo_texture_index != NO_TEXTURE){
+                        albedo_texture->set_texture(scene->textures[mat.albedo_texture_index],0);
+                    }else{
+                        glActiveTexture(GL_TEXTURE0);
+                        glBindTexture(GL_TEXTURE_2D, 0);
+                    }
+
+                    if(mat.roughness_texture_index != NO_TEXTURE){
+                        roughness_texture->set_texture(scene->textures[mat.roughness_texture_index],1);
+                    }else{
+                        glActiveTexture(GL_TEXTURE1);
+                        glBindTexture(GL_TEXTURE_2D, 0);
+                    }
                 }
 
                 glBindVertexArray(m.vao);

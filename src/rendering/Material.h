@@ -8,14 +8,15 @@
 namespace NNY{
 namespace Render{
 
-#define NO_TEXTURE UINT_MAX;
+#define NO_TEXTURE UINT_MAX
 
 struct Material{
     float roughness;
     float metalness;
     Vector3f color;
-    unsigned int diffuse_texture_index;
+    unsigned int albedo_texture_index;
     unsigned int normal_texture_index;
+    unsigned int roughness_texture_index;
 };
 
 }

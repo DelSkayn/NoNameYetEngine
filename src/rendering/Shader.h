@@ -7,8 +7,7 @@
 
 #include "../util/HName.h"
 #include "../util/Math3D.h"
-
-#define SHADER_PATH "res/shader/"
+#include "Texture.h"
 
 namespace NNY{
     namespace Render{
@@ -18,8 +17,9 @@ namespace NNY{
             public:
                 Uniform();
                 Uniform(const Shader * shader,const std::string name);
-                void setMatrix4f(const Matrix4f & mat);
-                void setFloat(const float & value);
+                void set_matrix4f(const Matrix4f & mat);
+                void set_float(const float & value);
+                void set_texture(Texture & text,int which);
             private:
                 GLint uni;
         };

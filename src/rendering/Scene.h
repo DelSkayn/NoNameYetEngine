@@ -3,8 +3,11 @@
 
 #include "Mesh.h"
 #include "Material.h"
+#include "Texture.h"
 #include <vector>
+#include <map>
 #include <string>
+#include <assimp/material.h>
 
 namespace NNY{
     namespace Render{
@@ -19,6 +22,12 @@ namespace NNY{
 
                 std::vector<Mesh> meshes;
                 std::vector<Material> materials;
+                std::vector<Texture> textures;
+                std::map<std::string,unsigned int> text_path_index;
+            private:
+                std::string dir;
+                unsigned int load_textures(Material & res,const aiMaterial & mat,aiTextureType type);
+                unsigned int load_texture_from_file(std::string path);
         };
     }
 }

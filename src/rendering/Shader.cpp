@@ -7,6 +7,7 @@
 #include <map>
 #include <cassert>
 
+#include "Texture.h"
 #include "../util/Misc.h"
 #include "../util/Log.h"
 
@@ -20,12 +21,56 @@ namespace NNY{
             uni = glGetUniformLocation(shader->program,name.c_str());
         }
 
-        void Uniform::setMatrix4f(const Matrix4f & mat){
+        void Uniform::set_matrix4f(const Matrix4f & mat){
             glUniformMatrix4fv(uni,1,GL_FALSE,mat[0]);
         }
 
-        void Uniform::setFloat(const float & value){
+        void Uniform::set_float(const float & value){
             glUniform1f(uni,value);
+        }
+
+        void Uniform::set_texture(Texture & text,int which){
+            GLenum w;
+            switch(which){
+                case 0:
+                    w = GL_TEXTURE0;
+                    break;
+                case 1:
+                    w = GL_TEXTURE1;
+                    break;
+                case 2:
+                    w = GL_TEXTURE2;
+                    break;
+                case 3:
+                    w = GL_TEXTURE3;
+                    break;
+                case 4:
+                    w = GL_TEXTURE4;
+                    break;
+                case 5:
+                    w = GL_TEXTURE5;
+                    break;
+                case 6:
+                    w = GL_TEXTURE6;
+                    break;
+                case 7:
+                    w = GL_TEXTURE7;
+                    break;
+                case 8:
+                    w = GL_TEXTURE8;
+                    break;
+                case 9:
+                    w = GL_TEXTURE9;
+                    break;
+                case 10:
+                    w = GL_TEXTURE10;
+                    break;
+                default:
+                    assert(false && "texture index out of range");
+            }
+            glActiveTexture(w);
+            glBindTexture(GL_TEXTURE_2D,text.texture);
+            glUniform1i(this->uni,which);
         }
 
         Shader::Shader(){

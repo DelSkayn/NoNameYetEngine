@@ -16,6 +16,8 @@ namespace NNY{
         class Mesh {
             public:
 
+            Mesh();
+
             Mesh( std::vector<Vector3f> vertex
                 , std::vector<Vector3f> tangent
                 , std::vector<Vector3f> normals

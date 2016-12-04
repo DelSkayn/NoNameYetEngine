@@ -4,7 +4,6 @@
 
 namespace NNY{
     namespace Mem{
-        size_t MemDebug::mem_allocated;
 
         void * malloc(std::size_t size){
             return std::malloc(size);
