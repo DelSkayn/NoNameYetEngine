@@ -3,6 +3,7 @@
 #include "../rendering/RenderEngine.h" 
 #include "../rendering/Shader.h" 
 #include "../rendering/RenderObject.h" 
+#include "../rendering/Scene.h" 
 
 #include "../core/Input.h"
 
@@ -23,29 +24,13 @@ TestGame::~TestGame(){
 }
 
 void TestGame::init(){
-    MeshManager::loadMesh("teapot.obj","t");
-    ShaderManager::LoadShader("pv.glsl","p.glsl","s");
-    for(unsigned int i = 0;i < NUMBER_TEAPOT*3;i++){
-        this->place[i] = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX)) * 40;
-    }
+    this->scene = new NNY::Render::Scene();
+    this->scene->load_from_file("res/mesh/sponza.obj");
+    this->scene->load();
 }
 
 void TestGame::render(RenderEngine * re){
-    Camera & cam = re->getRenderQueue().getCamera();
-       for(unsigned int i = 0;i < NUMBER_TEAPOT;i++){
-           RenderObject obj;
-           obj.m = MeshManager::getMesh("t");
-           obj.ModelMat = Matrix4d().toTranslation(Vector3d(
-               place[i*3],
-               place[i*3+1],
-               place[i*3+2]
-           ));
-           re->getRenderQueue().addRenderObj(obj);
-       }
-    RenderObject obj;
-    obj.m = MeshManager::getMesh("t");
-    re->getRenderQueue().addRenderObj(obj);
-
+    Camera & cam = re->camera;
 
     Quaterniond quat1(Vector3d(0,1,0),Mouse::x /300);
     Quaterniond quat2(quat1.right(),Mouse::y /300);
@@ -79,11 +64,12 @@ void TestGame::render(RenderEngine * re){
     if(Keyboard::isKeyPressed(GLFW_KEY_T)){
         Mouse::grabMouse(false);
     }
-    re->getRenderQueue().setShader(ShaderManager::getShader("s"));
+    re->render(this->scene);
 }
 
 void TestGame::update(NNY::Physics::PhysicsEngine * pe){
 }
 
 void TestGame::clean(){
+    delete this->scene;
 }

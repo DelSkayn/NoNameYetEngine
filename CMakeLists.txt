@@ -71,6 +71,12 @@ find_package(Threads REQUIRED)
 # GLEW
 INCLUDE(${NNYEngine_CMAKE_DIR}/FindGLEW.cmake)
 
+# Assimp 
+INCLUDE(${NNYEngine_CMAKE_DIR}/FindAssimp.cmake)
+
+# SOIL 
+INCLUDE(${NNYEngine_CMAKE_DIR}/FindSOIL.cmake)
+
 # GLFW 
 find_package(PkgConfig REQUIRED)
 
@@ -92,5 +98,7 @@ target_link_libraries( NNYEngine
     ${CMAKE_THREAD_LIBS_INIT}
     ${GLEW_LIBRARIES}
 	${OPENGL_LIBRARIES}
+    ${ASSIMP_LIBRARY}
+    ${SOIL_LIBRARY}
 )
 

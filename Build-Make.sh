@@ -11,5 +11,5 @@ if [ ! -d "build" ]; then
 fi
 cd build
 cmake -DCMAKE_BUILD_TYPE="$BUILD_TARGET" ../
-make -j 8 
+make -j 64
 rsync -v -u -r ../res/ ./res

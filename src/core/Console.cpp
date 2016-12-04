@@ -102,21 +102,12 @@ namespace NNY{
                         Engine::current_window->setDimensions(Misc::int_value_of(arguments[0]),Misc::int_value_of(arguments[1]));
                         Engine::current_window->resize();
                         ),
-                MAP_FUNCTION(loadMesh,2,
-                        MeshManager::loadMesh(arguments[0],arguments[1]);
-                        ),
-                MAP_FUNCTION(loadShader,3,
-                        ShaderManager::LoadShader(arguments[0],arguments[1],arguments[2]);
-                        ),
-                MAP_FUNCTION(loadTexture,2,
-                        TextureManager::loadTexture(arguments[0],arguments[1]);
-                        ),
                 MAP_FUNCTION(move,3,
-                        Camera & camera= Engine::render_engine->getRenderQueue().getCamera();
+                        Camera & camera= Engine::render_engine->camera;
                         camera.setPosition(Misc::float_value_of(arguments[0]),Misc::float_value_of(arguments[1]),Misc::float_value_of(arguments[2]));
                         ),
                 MAP_FUNCTION(look,3,
-                        Camera & camera= Engine::render_engine->getRenderQueue().getCamera();
+                        Camera & camera= Engine::render_engine->camera;
                         camera.lookAt(Misc::float_value_of(arguments[0]),Misc::float_value_of(arguments[1]),Misc::float_value_of(arguments[2]));
                         ),
                 MAP_FUNCTION(grab,0,

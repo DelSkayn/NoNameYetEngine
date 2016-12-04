@@ -1,10 +1,11 @@
 #ifndef ENGINE_H
 #define ENGINE_H 
 #include <GL/glew.h>
+#include <assimp/cimport.h>
 #include "core/Kernel.h"
 
-#define OGL_VERSION_MAJOR_REQUIRED 3
-#define OGL_VERSION_MINOR_REQUIRED 2 
+#define OGL_VERSION_MAJOR_REQUIRED 4
+#define OGL_VERSION_MINOR_REQUIRED 3
 
 #include "AbstractGame.h" 
 
@@ -42,6 +43,7 @@ namespace NNY{
         static Physics::PhysicsEngine * physics_engine;
         static Core::Console * console;
         static AbstractGame * game;
+        static aiLogStream * assimp_log;
         static bool initialized;
         //pointers to the different modules of the engine
     };

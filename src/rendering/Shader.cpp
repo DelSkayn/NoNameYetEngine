@@ -5,6 +5,7 @@
 #include <fstream>
 #include <streambuf>
 #include <map>
+#include <cassert>
 
 #include "../util/Misc.h"
 #include "../util/Log.h"
@@ -27,32 +28,37 @@ namespace NNY{
             glUniform1f(uni,value);
         }
 
-        std::map<HName,Shader> ShaderManager::shader_map;
+        Shader::Shader(){
+            this->vertex = 0;
+            this->fragment = 0;
+            this->program = 0;
+            this->MVPuniform = 0;
+            this->VPuniform = 0;
+            this->Muniform = 0;
+        }
 
-        void ShaderManager::LoadShader(std::string vertexPath,std::string fragmentPath,std::string name){
+        Shader::~Shader(){
+            if(this->program)
+                glDeleteProgram(this->program);
+
+            this->program = 0;
+            this->vertex = 0;
+            this->fragment = 0;
+        }
+
+
+
+        void Shader::load_shader(std::string vertexPath,std::string fragmentPath){
 
             std::ifstream in;
-            in.open(SHADER_PATH "VertexHeader.glsl");
-
-            //check if file is readable
-            if(!in.is_open()){
-                M_LOGLVL("[warning] shader file cant be found: " + vertexPath, Log::Level::RENDERING)
-                    return;
-            }
             std::string vertexScource;
             std::string line;
-            while(!in.eof()){
-                std::getline(in,line);
-                vertexScource.append(line + "\n");
-                //line.clear()
-            }
-            in.close();
-            in.open(SHADER_PATH + vertexPath);
+            in.open(vertexPath);
 
             //check if file is readable
             if(!in.is_open()){
                 M_LOGLVL("[warning] shader file cant be found: " + vertexPath, Log::Level::RENDERING)
-                    return;
+                    assert(false);
             }
 
             //loads vertex scource
@@ -62,26 +68,12 @@ namespace NNY{
                 //line.clear()
             }
             in.close();
-
-            in.open(SHADER_PATH "FragmentHeader.glsl");
-
-            if(!in.is_open()){
-                M_LOGLVL("[warning] shader file cant be found: " + fragmentPath, Log::Level::RENDERING)
-                    return;
-            }
-
             std::string fragmentScource;
-            while(!in.eof()){
-                std::getline(in,line);
-                fragmentScource.append(line + "\n");
-                //line.clear()
-            }
-            in.close();
-            in.open(SHADER_PATH + fragmentPath);
+            in.open(fragmentPath);
 
             if(!in.is_open()){
                 M_LOGLVL("[warning] shader file cant be found: " + fragmentPath, Log::Level::RENDERING)
-                    return;
+                    assert(false);
             }
 
             while(!in.eof()){
@@ -90,101 +82,86 @@ namespace NNY{
                 //line.clear()
             }
 
-            //    LOG_DEBUG(fragmentScource+ "\n");
-            //    LOG_DEBUG(vertexScource);
-
-            Shader s = compileShader(vertexScource,fragmentScource);
-
-            shader_map.insert(std::pair<HName,Shader>(name,s));
+            this->compile_shader(vertexScource,fragmentScource);
         }
 
-        Shader ShaderManager::compileShader(std::string vertexScource, std::string fragmentScource){
-            Shader s;
+        void Shader::compile_shader(std::string vertexScource, std::string fragmentScource){
 
-            s.vertex = glCreateShader(GL_VERTEX_SHADER);
+            this->vertex = glCreateShader(GL_VERTEX_SHADER);
 
             const char * cstring = vertexScource.c_str();
-            glShaderSource(s.vertex, 1,&cstring, NULL);
-            glCompileShader(s.vertex);
+            glShaderSource(this->vertex, 1,&cstring, NULL);
+            glCompileShader(this->vertex);
 
             GLint compiled = -1;
-            glGetShaderiv(s.vertex, GL_COMPILE_STATUS, &compiled);
+            glGetShaderiv(this->vertex, GL_COMPILE_STATUS, &compiled);
             std::cout << compiled << std::endl;
             if (compiled == GL_FALSE) {
                 GLint maxLength = 0;
-                glGetShaderiv(s.vertex, GL_INFO_LOG_LENGTH, &maxLength);
+                glGetShaderiv(this->vertex, GL_INFO_LOG_LENGTH, &maxLength);
                 std::vector<char> errorlogchar(maxLength);
-                glGetShaderInfoLog(s.vertex,maxLength, &maxLength, &errorlogchar[0]);
+                glGetShaderInfoLog(this->vertex,maxLength, &maxLength, &errorlogchar[0]);
                 std::string errorlog(errorlogchar.begin(), errorlogchar.end());
                 M_LOGLVL("[Warning] Error in vertex shader compilation:",Log::Level::RENDERING)
                     M_LOGLVL("    " + errorlog,Log::Level::RENDERING)
-                    return s;
+                    assert(false);
             }
 
-            s.fragment = glCreateShader(GL_FRAGMENT_SHADER);
+            this->fragment = glCreateShader(GL_FRAGMENT_SHADER);
 
             cstring = fragmentScource.c_str();
-            glShaderSource(s.fragment, 1,&cstring, NULL);
-            glCompileShader(s.fragment);
+            glShaderSource(this->fragment, 1,&cstring, NULL);
+            glCompileShader(this->fragment);
 
             compiled = -1;
-            glGetShaderiv(s.fragment, GL_COMPILE_STATUS, &compiled);
+            glGetShaderiv(this->fragment, GL_COMPILE_STATUS, &compiled);
             if (compiled == GL_FALSE) {
                 GLint maxLength = 0;
-                glGetShaderiv(s.fragment, GL_INFO_LOG_LENGTH, &maxLength);
+                glGetShaderiv(this->fragment, GL_INFO_LOG_LENGTH, &maxLength);
                 std::vector<char> errorlogchar(maxLength);
-                glGetShaderInfoLog(s.fragment,maxLength, &maxLength, &errorlogchar[0]);
+                glGetShaderInfoLog(this->fragment,maxLength, &maxLength, &errorlogchar[0]);
                 std::string errorlog(errorlogchar.begin(), errorlogchar.end());
                 M_LOGLVL("[Warning] Error in fragment shader compilation:",Log::Level::RENDERING)
                     M_LOGLVL("    " + errorlog,Log::Level::RENDERING)
-                    return s;
+                    assert(false);
             }
 
-            s.program = glCreateProgram();
+            this->program = glCreateProgram();
 
-            glAttachShader(s.program, s.vertex);
-            glAttachShader(s.program, s.fragment);
+            glAttachShader(this->program, this->vertex);
+            glAttachShader(this->program, this->fragment);
 
-            glLinkProgram(s.program);
+            glLinkProgram(this->program);
 
             compiled = -1;
-            glGetProgramiv(s.program,GL_LINK_STATUS, &compiled);
+            glGetProgramiv(this->program,GL_LINK_STATUS, &compiled);
             if(compiled == GL_FALSE){
                 GLint maxLength = 0;
-                glGetProgramiv(s.program, GL_INFO_LOG_LENGTH, &maxLength);
+                glGetProgramiv(this->program, GL_INFO_LOG_LENGTH, &maxLength);
                 std::vector<char> errorLog(maxLength);
-                glGetShaderInfoLog(s.program,maxLength, &maxLength, &errorLog[0]);
+                glGetShaderInfoLog(this->program,maxLength, &maxLength, &errorLog[0]);
                 std::string logstring(errorLog.begin(),errorLog.end());
 
                 M_LOGLVL("[Warning] Error in fragment shader compilation:",Log::Level::RENDERING)
                     M_LOGLVL("    " + logstring,Log::Level::RENDERING)
+                    assert(false);
             }
 
-            glDeleteShader(s.fragment);
-            glDeleteShader(s.vertex);
+            glDeleteShader(this->fragment);
+            glDeleteShader(this->vertex);
 
-            return s;
+            this->vertex = 0;
+            this->fragment = 0;
         }
 
-        Shader * ShaderManager::getShader(std::string name){
-            auto it = shader_map.find(HName(name));
-            if(it == shader_map.end()){
-                M_LOGLVL("[Warning] requested shader which is not loaded: " + name,Log::Level::RENDERING)
-                    //TODO add default shader in case requested on is not aviable
-                    return nullptr;
+        Uniform * Shader::get_uniform(std::string name){
+            auto s = this->uniform_map.find(name);
+            if(s != this->uniform_map.end()){
+                return &s->second;
             }
-            return &it->second;
-        }
-
-        void ShaderManager::clean(){
-            for(auto it = shader_map.begin();it != shader_map.end();it++){
-                deleteShader(it->second);
-            }
-            shader_map.clear();
-        }
-
-        void ShaderManager::deleteShader(Shader s){
-            glDeleteProgram(s.program);
+            this->uniform_map.insert(std::pair<std::string,Uniform>(name,Uniform(this,name)));
+            s = this->uniform_map.find(name);
+            return &s->second;
         }
     }
 }

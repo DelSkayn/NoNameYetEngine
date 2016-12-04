@@ -28,7 +28,6 @@ namespace NNY{
                 {
                     PROFILE(render)
                         Engine::game->render(Engine::render_engine);
-                    Engine::render_engine->render();
                 }
                 Engine::current_window->update();
             }

@@ -1,1 +1,2 @@
-[Message] Ogl version found 3 , 2
+[Message] Ogl version found 4 , 3
+[warning] shader file cant be found: res/shader/p.glsl

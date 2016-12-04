@@ -1,29 +1,31 @@
 #ifndef RENDERINGENGINE_H
 #define RENDERINGENGINE_H
 
-#include "RenderQueue.h" 
+#include "Shader.h"
+#include "Scene.h"
+#include "Camera.h"
 
 namespace NNY{
     namespace Core{
         class Console;
     }
     namespace Render{
-        class Scene;
 
         class RenderEngine{
             friend Core::Console;
             public:
-            RenderEngine();
-            ~RenderEngine();
+                RenderEngine();
+                ~RenderEngine();
 
-            void render();
+                void render(Scene * scene);
 
-            bool ready() const;
-            RenderQueue & getRenderQueue();
+                bool ready() const;
+
+                Shader * geometry_shader;
+                Camera camera;
             private:
-            RenderQueue render_que;
-            bool glew_inited;
-            bool ogl_version_supported;
+                bool glew_inited;
+                bool ogl_version_supported;
         };
     }
 }

@@ -12,19 +12,7 @@
 
 namespace NNY{
     namespace Render{
-
-        /*
-         * The Class for holding the OGL shader data
-         * TODO remove vertex and fragment from object?
-         */
-        struct Shader{
-            GLuint vertex;
-            GLuint fragment;
-            GLuint program;
-            GLint MVPuniform;
-            GLint VPuniform;
-            GLint Muniform;
-        };
+        struct Shader;
 
         class Uniform{
             public:
@@ -35,38 +23,30 @@ namespace NNY{
             private:
                 GLint uni;
         };
-
         /*
-         * The class managing all shader objects loading and compiling.
-         * This class is very temperary and will
-         * be replaced when a proper rescource managements
-         * system is written.
+         * The Class for holding the OGL shader data
+         * TODO remove vertex and fragment from object?
          */
-        class ShaderManager{
-            public:
-                /*
-                 * Loads shader files and compiles then into a shader
-                 * args:
-                 * vertexPath: the path to vertex shader
-                 * fragmentPath: path to the fragemnt shader 
-                 * shadername: the name of the shader after it is loaded in the map 
-                 */
-                static void LoadShader(std::string vertexPath,std::string fragmentPath, std::string shaderName);
+        struct Shader{
+            Shader();
+            ~Shader();
 
-                /*
-                 * returns shader with given name
-                 */
-                static Shader * getShader(std::string name);
+            GLuint vertex;
+            GLuint fragment;
+            GLuint program;
+            GLint MVPuniform;
+            GLint VPuniform;
+            GLint Muniform;
 
-                static void clean();
+            void load_shader(std::string vertex_path,std::string fragment_path);
 
-                static void deleteShader(std::string name);
+            Uniform * get_uniform(std::string name);
+
             private:
-                static void deleteShader(Shader s);
-
-                static Shader compileShader(std::string vertexScource,std::string fragmentScource);
-                static std::map<HName,Shader> shader_map;
+            void compile_shader(std::string vertex_source, std::string fragment_source);
+            std::map<std::string,Uniform> uniform_map;
         };
+
     }
 }
 

@@ -13,8 +13,7 @@
 
 namespace NNY{
     namespace Render{
-
-        RenderEngine::RenderEngine(){ //request opengl version 3.2
+RenderEngine::RenderEngine(){ //request opengl version 3.2
 
 
             //create window and context
@@ -72,47 +71,50 @@ namespace NNY{
             //glEnable(GL_DEPTH_CLAMP);
 
             //load default values for rescources
-            MeshManager::init();
+            this->geometry_shader = new Shader(); 
+            this->geometry_shader->load_shader("res/shader/pv.glsl","res/shader/p.glsl");
         }
 
         RenderEngine::~RenderEngine(){
-            MeshManager::clean();
-            ShaderManager::clean();
-            TextureManager::clean();
+            delete(this->geometry_shader);
         }
 
-        void RenderEngine::render() {
+        void RenderEngine::render(Scene * scene) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            Shader & shader = *(render_que.defaultShader);
-            auto & list = render_que.render_list;
-            Matrix4d camMatrix = render_que.current_camera.getViewProjection();
-            Matrix4f projection = Matrix4f(render_que.current_camera.getProjection());
-            Matrix4d viewMatrix = render_que.current_camera.getView();
+            Matrix4f camMatrix = Matrix4f(this->camera.getViewProjection());
+            Matrix4f projection = Matrix4f(this->camera.getProjection());
+            Matrix4f viewMatrix = Matrix4f(this->camera.getView());
 
-            glUseProgram(shader.program);
-            render_que.P.setMatrix4f(projection);
-            
-            for(unsigned int i = 0;i < list.size();i++){
-                Matrix4d & modelMatrix = list[i].ModelMat;
-                render_que.MV.setMatrix4f(Matrix4f(viewMatrix * modelMatrix));
-                render_que.MVP.setMatrix4f(Matrix4f(camMatrix * modelMatrix));
+            glUseProgram(this->geometry_shader->program);
+            this->geometry_shader->get_uniform("NNY_PMat")->setMatrix4f(projection);
+            this->geometry_shader->get_uniform("NNY_MVMat")->setMatrix4f(viewMatrix);
+            this->geometry_shader->get_uniform("NNY_MVPMat")->setMatrix4f(camMatrix);
 
-                glBindVertexArray(list[i].m->vao);
+            Uniform * roughness = this->geometry_shader->get_uniform("NNY_roughness");
+            Uniform * metalness = this->geometry_shader->get_uniform("NNY_metalness");
+            Uniform * diffuse = this->geometry_shader->get_uniform("NNY_diffuse");
 
-                glDrawElements(GL_TRIANGLES,list[i].m->indexsize,GL_UNSIGNED_INT,0);
+            // make sure the last material is not the material of the first mesh
+            unsigned int last_material = scene->meshes[0].material_id + 1;
+            for(Mesh & m : scene->meshes){
+                if(m.material_id != last_material){
+                    last_material = m.material_id;
+                    Material & mat = scene->materials[m.material_id];
+                    roughness->setFloat(mat.roughness);
+                    metalness->setFloat(mat.metalness);
+                }
+
+                glBindVertexArray(m.vao);
+                glDrawElements(GL_TRIANGLES,m.indexsize,GL_UNSIGNED_INT,0);
             }
             glBindVertexArray(0);
             glUseProgram(0);
-            render_que.clearList();
         }
 
         bool RenderEngine::ready() const {
             return glew_inited && ogl_version_supported;
         }
 
-        RenderQueue & RenderEngine::getRenderQueue(){
-            return render_que;
-        }
     }
 }

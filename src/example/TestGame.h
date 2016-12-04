@@ -2,7 +2,7 @@
 #define TESTGAME_H
 
 #include "../AbstractGame.h"
-#define NUMBER_TEAPOT 2001
+#include "../rendering/Scene.h" 
 
 /*
  * A Very basic example to test the Engine
@@ -21,7 +21,7 @@ class TestGame : public AbstractGame{
         bool right;
         bool up;
         bool down;
-        double place[NUMBER_TEAPOT*3];
+        NNY::Render::Scene * scene;
 };
 
 #endif /* TESTGAME_H */

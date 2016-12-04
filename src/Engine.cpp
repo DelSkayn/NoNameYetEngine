@@ -1,6 +1,7 @@
 #include "Engine.h"
 
 #include <GLFW/glfw3.h>
+#include <assimp/cimport.h>
 
 #include "util/Log.h"
 #include "rendering/RenderEngine.h"
@@ -9,6 +10,7 @@
 #include "core/Window.h"
 #include "core/Input.h"
 
+
 namespace NNY{
 
     Core::Window * Engine::current_window;
@@ -16,8 +18,8 @@ namespace NNY{
     Physics::PhysicsEngine * Engine::physics_engine;
     Core::Console * Engine::console;
     AbstractGame * Engine::game;
+    aiLogStream * Engine::assimp_log;
     bool Engine::initialized = false;
-
 
     void Engine::start(){
         //Init Sdl and test if init was succesful
@@ -25,6 +27,7 @@ namespace NNY{
             M_LOG("[Error] Could not init glfw")
                 //TODO expant sdl error logging
         }
+
 
         current_window = new Core::Window();
         current_window->resize();
@@ -34,6 +37,11 @@ namespace NNY{
         render_engine = new Render::RenderEngine();
         physics_engine = new Physics::PhysicsEngine();
         console = new Core::Console();
+
+        assimp_log = new aiLogStream();
+        *assimp_log = aiGetPredefinedLogStream(aiDefaultLogStream_STDOUT,NULL);
+
+        aiAttachLogStream(assimp_log);
 
         initialized = true;
     }
