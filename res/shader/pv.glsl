@@ -1,36 +1,39 @@
 #version 330
 
 layout (location = 0) in vec3 position;
-layout (location = 1) in vec3 normals;
-layout (location = 2) in vec2 tex_coords;
+layout (location = 1) in vec3 normal;
+layout (location = 2) in vec2 tex_coord;
 layout (location = 3) in vec3 tangent;
 
-uniform mat4 MVPMat;
-uniform mat4 MVMat;
-uniform mat4 PMat;
+uniform mat4 projection;
+uniform mat4 view;
+uniform mat4 model;
 
-uniform vec3 Ligpos = vec3(0,1000,0.0);
+uniform vec3 light_position = vec3(0.0,10.0,0.0);
+uniform vec3 view_position;
 
 out VS_OUT{
-    vec3 N;
-    vec3 L;
-    vec3 V;
-    vec2 coords;
-    mat3 TBN;
+    vec3 position;
+    vec2 tex_coord;
+    vec3 t_light;
+    vec3 t_view;
+    vec3 t_position;
+    vec3 normal;
 } vs_out;
 
-void main()
-{
-    gl_Position = MVPMat * vec4(position,1.0);
-    vec3 T = normalize(tangent);
-    vec3 N = normalize(normals);
-    vec3 B = normalize(cross(N,T));
-    vs_out.TBN = mat3(T,B,N);
+void main(){
+    gl_Position = projection * view * model * vec4(position, 1.0);
+    vs_out.position = vec3(model * vec4(position,1.0));
+    vs_out.tex_coord = tex_coord;
 
-    vec4 P = MVMat * vec4(position,1.0);
-    vs_out.N = mat3(MVMat) * N;
+    mat3 normal_matrix = transpose(inverse(mat3(model)));
+    vec3 t = normalize(normal_matrix * tangent);
+    vec3 n = normalize(normal_matrix * normal);
+    vec3 b = normalize(cross(t,n));
 
-    vs_out.L = (vec4(mat3(MVMat) * Ligpos,1.0) - P).xyz;
-    vs_out.V = P.xyz * -1;
-    vs_out.coords = tex_coords;
+    mat3 tbn = transpose(mat3(t,b,n));
+    vs_out.t_light = tbn * light_position;
+    vs_out.t_view = tbn * view_position;
+    vs_out.t_position = tbn * vs_out.position;
+    vs_out.normal = tbn * n;
 }

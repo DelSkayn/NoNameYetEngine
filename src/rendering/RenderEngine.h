@@ -4,6 +4,8 @@
 #include "Shader.h"
 #include "Scene.h"
 #include "Camera.h"
+#include "PostProcess.h"
+#include "FrameBuffer.h"
 
 namespace NNY{
     namespace Core{
@@ -14,16 +16,24 @@ namespace NNY{
         class RenderEngine{
             friend Core::Console;
             public:
-                RenderEngine();
+                
+                RenderEngine(unsigned width, unsigned height);
                 ~RenderEngine();
 
                 void render(Scene * scene);
 
                 bool ready() const;
 
+
                 Shader * geometry_shader;
+                Shader * post_shader;
+                PostProcess * post;
                 Camera camera;
+                float exposure;
             private:
+                FrameBuffer * collect_buffer;
+                RenderEngine();
+                unsigned width,height;
                 bool glew_inited;
                 bool ogl_version_supported;
         };

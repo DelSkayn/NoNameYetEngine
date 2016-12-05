@@ -15,6 +15,9 @@ class Vector{
         inline Vector();
         inline Vector(const Vector<T, I>& other);
 
+        template<typename D>
+        inline Vector(const Vector<D, I>& other);
+
         inline T dot(const Vector<T, I>& other) const;
 
         inline T lengthSq() const;

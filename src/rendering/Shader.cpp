@@ -25,8 +25,16 @@ namespace NNY{
             glUniformMatrix4fv(uni,1,GL_FALSE,mat[0]);
         }
 
-        void Uniform::set_float(const float & value){
-            glUniform1f(uni,value);
+        void Uniform::set_bool(bool value){
+            glUniform1i(uni,value);
+        }
+
+        void Uniform::set_vector3f(const Vector3f & vec){
+            glUniform3f(uni,vec.x(),vec.y(),vec.z());
+        }
+
+        void Uniform::set_float(float value){ 
+            glUniform1f(uni,value); 
         }
 
         void Uniform::set_texture(Texture & text,int which){
@@ -197,6 +205,14 @@ namespace NNY{
 
             this->vertex = 0;
             this->fragment = 0;
+        }
+
+        void Shader::bind(){
+            glUseProgram(this->program);
+        }
+
+        void Shader::unbind(){
+            glUseProgram(0);
         }
 
         Uniform * Shader::get_uniform(std::string name){

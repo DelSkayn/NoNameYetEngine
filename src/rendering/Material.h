@@ -5,10 +5,11 @@
 #include <memory>
 #include <climits>
 
+#define NO_TEXTURE UINT_MAX
+
 namespace NNY{
 namespace Render{
 
-#define NO_TEXTURE UINT_MAX
 
 struct Material{
     float roughness;

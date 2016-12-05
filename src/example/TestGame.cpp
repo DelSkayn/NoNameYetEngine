@@ -38,22 +38,22 @@ void TestGame::render(RenderEngine * re){
     cam.rotation.conjugate();
 
     if(Keyboard::isKeyPressed(GLFW_KEY_W)){
-        cam.position -= cam.rotation.forward() *0.5;
+        cam.position -= cam.rotation.forward();
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_S)){
-        cam.position -= cam.rotation.back() * 0.5;
+        cam.position -= cam.rotation.back();
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_A)){
-        cam.position += cam.rotation.left() * 0.5;
+        cam.position += cam.rotation.left();
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_D)){
-        cam.position += cam.rotation.right() * 0.5;
+        cam.position += cam.rotation.right();
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_Q)){
-        cam.position += cam.rotation.up() * 0.5;
+        cam.position += cam.rotation.up();
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_E)){
-        cam.position += cam.rotation.down() * 0.5;
+        cam.position += cam.rotation.down();
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_ESCAPE)){
         Kernel::quit();
@@ -63,6 +63,12 @@ void TestGame::render(RenderEngine * re){
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_T)){
         Mouse::grabMouse(false);
+    }
+    if(Keyboard::isKeyPressed(GLFW_KEY_O)){
+        re->exposure += 0.01;
+    }
+    if(Keyboard::isKeyPressed(GLFW_KEY_P)){
+        re->exposure -= 0.01;
     }
     re->render(this->scene);
 }

@@ -25,6 +25,14 @@ Vector<T,I>::Vector(const Vector<T,I> & other){
 }
 
 template<typename T,unsigned int I>
+template<typename D>
+Vector<T,I>::Vector(const Vector<D,I> & other){
+    for(unsigned int i = 0; i< I;i++){
+        (*this)[i] = (T) other[i];
+    }
+}
+
+template<typename T,unsigned int I>
 T Vector<T,I>::dot(const Vector<T,I> & other) const {
     T result = T(0);
     for(unsigned int i = 0;i < I;i++){
