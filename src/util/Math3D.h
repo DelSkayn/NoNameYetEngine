@@ -47,6 +47,7 @@ class Vector{
         inline bool operator!=(const Vector<T,I> & other) const;
 
         inline static Vector<T,I> normalize(const Vector<T,I> & );
+        inline static Vector<T,I> random();
 
 };
 

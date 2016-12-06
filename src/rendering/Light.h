@@ -3,6 +3,9 @@
 
 #include "../util/Math3D.h" 
 
+namespace NNY{
+namespace Render{
+
 struct DirectionalLight{
     float intensity;
     Vector3f color;
@@ -22,5 +25,7 @@ struct SpotLight{
     Vector3f position;
     Quaternionf rotation;
 };
+
+}}
 
 #endif /* LIGHT_H */

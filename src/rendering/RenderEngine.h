@@ -1,6 +1,7 @@
 #ifndef RENDERINGENGINE_H
 #define RENDERINGENGINE_H
 
+#include "Light.h"
 #include "Shader.h"
 #include "Scene.h"
 #include "Camera.h"
@@ -35,7 +36,9 @@ namespace NNY{
 
                 Shader * geometry_shader;
                 Shader * post_shader;
+                Shader * pos_shader;
                 Shader * point_shader;
+                Shader * dir_shader;
                 PostProcess * post;
                 Camera camera;
                 float exposure;

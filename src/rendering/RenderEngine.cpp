@@ -72,8 +72,12 @@ namespace NNY{
             this->geometry_shader->load_shader("res/shader/geomv.glsl","res/shader/geom.glsl");
             this->post_shader = new Shader();
             this->post_shader->load_shader("res/shader/postv.glsl","res/shader/post.glsl");
+            this->pos_shader = new Shader();
+            this->pos_shader->load_shader("res/shader/postv.glsl","res/shader/pos.glsl");
             this->point_shader = new Shader();
             this->point_shader->load_shader("res/shader/p_lightv.glsl","res/shader/p_light.glsl");
+            this->dir_shader = new Shader();
+            this->dir_shader->load_shader("res/shader/d_lightv.glsl","res/shader/d_light.glsl");
             this->post = new PostProcess();
             this->g_buffer = new GBuffer(width,height);
             this->exposure = 1.0;
@@ -149,28 +153,58 @@ namespace NNY{
                 Shader::unbind();
             FrameBuffer::unbind();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             if(this->which == RenderOut::FULL){
-                this->point_shader->bind();
+
+                glEnable(GL_BLEND);
+                glDisable(GL_DEPTH_TEST);
+                glBlendFunc(GL_ONE, GL_ONE);
                 auto position = this->g_buffer->get_position_texture();
                 auto normal = this->g_buffer->get_normal_texture();
                 auto albedo = this->g_buffer->get_albedo_texture();
+
+                this->dir_shader->bind();
+                this->dir_shader->get_uniform("in_position")->set_texture(position,0);
+                this->dir_shader->get_uniform("in_normal")->set_texture(normal,1);
+                this->dir_shader->get_uniform("in_albedo")->set_texture(albedo,2);
+                this->dir_shader->get_uniform("exposure")->set_float(this->exposure);
+                this->dir_shader->get_uniform("view_pos")->set_vector3f(view_position);
+                this->dir_shader->get_uniform("light_direction")->set_vector3f(scene->d_light.direction);
+                this->dir_shader->get_uniform("light_intensity")->set_float(scene->d_light.intensity);
+                this->dir_shader->get_uniform("light_color")->set_vector3f(scene->d_light.color);
+                this->post->draw();
+
+                this->point_shader->bind();
                 this->point_shader->get_uniform("in_position")->set_texture(position,0);
                 this->point_shader->get_uniform("in_normal")->set_texture(normal,1);
                 this->point_shader->get_uniform("in_albedo")->set_texture(albedo,2);
                 this->point_shader->get_uniform("exposure")->set_float(this->exposure);
                 this->point_shader->get_uniform("view_pos")->set_vector3f(view_position);
-                this->point_shader->get_uniform("light_pos")->set_vector3f(Vector3f(0.0,10.0,0.0));
-                this->point_shader->get_uniform("light_intensity")->set_float(100.0);
-                this->post->draw();
+                    
+                Uniform * l_position = this->point_shader->get_uniform("light_position");
+                Uniform * l_intensity = this->point_shader->get_uniform("light_intensity");
+                Uniform * l_color = this->point_shader->get_uniform("light_color");
+
+                this->point_shader->bind();
+                for (PointLight & l : scene->p_lights){
+                    l_position->set_vector3f(l.position);
+                    l_intensity->set_float(1/l.intensity);
+                    l_color->set_vector3f(l.color);
+                    this->post->draw();
+                }
+                glDisable(GL_BLEND);
+                glEnable(GL_DEPTH_TEST);
+
+
             }else if(this->which == RenderOut::NORMALS){
                 this->post_shader->bind();
                 auto input = this->g_buffer->get_normal_texture();
                 this->post_shader->get_uniform("input")->set_texture(input,0);
                 this->post->draw();
             }else if(this->which == RenderOut::POSITIONS){
+                this->pos_shader->bind();
+                auto input = this->g_buffer->get_position_texture();
+                this->post_shader->get_uniform("input")->set_texture(input,0);
+                this->post->draw();
             }else if(this->which == RenderOut::ALBEDO){
                 this->post_shader->bind();
                 auto input = this->g_buffer->get_albedo_texture();
@@ -178,7 +212,6 @@ namespace NNY{
                 this->post->draw();
             }
             Shader::unbind();
-            glDisable(GL_BLEND);
         }
 
         bool RenderEngine::ready() const {

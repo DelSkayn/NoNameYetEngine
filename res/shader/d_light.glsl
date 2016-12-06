@@ -5,7 +5,7 @@ uniform sampler2D in_normal;
 uniform sampler2D in_albedo;
 uniform float exposure;
 
-uniform vec3 light_position;
+uniform vec3 light_direction;
 uniform vec3 light_color;
 uniform float light_intensity;
 uniform vec3 view_pos;
@@ -17,13 +17,13 @@ out vec4 out_color;
 void main(){
     const float metalness = 0;
     vec3 position = texture(in_position, tex_coord).rgb;
-    float dist = length(position-light_position);
     vec3 normal = texture(in_normal, tex_coord).rgb;
     vec4 temp = texture(in_albedo, tex_coord);
     vec3 color = temp.rgb;
     float roughness = temp.a;
+
     vec3 view = normalize(view_pos - position);
-    vec3 light = normalize(light_position - position);
+    vec3 light = normalize(light_direction);
     vec3 half = normalize(light + view);
 
     vec3 ambient = 0.1 * color;
@@ -49,10 +49,9 @@ void main(){
     
     vec3 specular = (D * F * G) / (4 * n_dot_l * n_dot_v);
 
-    vec3 hdr_color = n_dot_l * specular;
-    hdr_color = hdr_color + ambient;
+    vec3 hdr_color = n_dot_l * specular + ambient;
 
-    float att = 1.0 / (1.0 + light_intensity * dist * dist);
+    float att = light_intensity;
 
     vec3 result = vec3(1.0) - exp(-hdr_color * exposure);
     result = pow(result, vec3(1.0 / gamma));

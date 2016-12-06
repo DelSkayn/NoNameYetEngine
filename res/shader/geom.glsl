@@ -27,7 +27,7 @@ void main(){
     vec3 normal;
     if(has_normal_texture){
         normal = texture(normal_texture,fs_in.tex_coord).xyz;
-        normal = normalize(normal * 2.0 - 1.0);
+        normal = normalize(normal * 2.0 - 1.0) * vec3(1,-1,1);
         normal = fs_in.tbn * normal;
     }else{
         normal = fs_in.normal;

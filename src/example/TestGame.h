@@ -15,6 +15,7 @@ class TestGame : public AbstractGame{
         void update(NNY::Physics::PhysicsEngine * pe);
         void clean();
     private:
+        bool was_added;
         bool forward;
         bool backward;
         bool left;

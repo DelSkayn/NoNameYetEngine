@@ -1,5 +1,6 @@
 ﻿#include "Math3D.h"
 #include <cmath>
+#include <cstdlib>
 
 #include <string>
 #include <sstream>
@@ -158,6 +159,15 @@ bool Vector<T,I>::operator!=(const Vector<T,I> & other) const{
 template<typename T,unsigned int I>
 Vector<T,I> Vector<T,I>::normalize(const Vector<T,I> & other){
     return other / other.length();
+}
+
+template<typename T,unsigned int I>
+Vector<T,I> Vector<T,I>::random(){
+    Vector<T,I> res;
+    for(unsigned int i = 0;i < I;i++){
+        res[i] = static_cast<float> (std::rand() / static_cast<float> (RAND_MAX));
+    }
+    return res;
 }
 
 

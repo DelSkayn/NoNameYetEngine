@@ -6,5 +6,5 @@ in vec2 tex_coord;
 out vec4 color;
 
 void main(){
-    color = vec4(texture(input, tex_coord).rgb, 1.0f);
+    color = vec4(texture(input, tex_coord).rgb/1000.0, 1.0f);
 }

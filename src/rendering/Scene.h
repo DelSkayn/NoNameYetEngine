@@ -4,6 +4,7 @@
 #include "Mesh.h"
 #include "Material.h"
 #include "Texture.h"
+#include "Light.h"
 #include <vector>
 #include <map>
 #include <string>
@@ -14,12 +15,14 @@ namespace NNY{
         class Scene{
             public:
 
-                Scene(){}
+                Scene();
 
                 void load_from_file(std::string path);
                 void load();
                 void unload();
 
+                std::vector<PointLight> p_lights;
+                DirectionalLight d_light;
                 std::vector<Mesh> meshes;
                 std::vector<Material> materials;
                 std::vector<Texture> textures;

@@ -4,6 +4,7 @@
 #include "../rendering/Shader.h" 
 #include "../rendering/RenderObject.h" 
 #include "../rendering/Scene.h" 
+#include "../rendering/Light.h" 
 
 #include "../core/Input.h"
 
@@ -27,6 +28,8 @@ void TestGame::init(){
     this->scene = new NNY::Render::Scene();
     this->scene->load_from_file("res/mesh/sponza.obj");
     this->scene->load();
+    this->scene->p_lights.push_back(NNY::Render::PointLight{ 1000, Vector3f(1.0,1.0,1.0), Vector3f(0.0,10.0,0.0)});
+    this->was_added = false;
 }
 
 void TestGame::render(RenderEngine * re){
@@ -38,22 +41,22 @@ void TestGame::render(RenderEngine * re){
     cam.rotation.conjugate();
 
     if(Keyboard::isKeyPressed(GLFW_KEY_W)){
-        cam.position -= cam.rotation.forward();
+        cam.position -= cam.rotation.forward() * 5;
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_S)){
-        cam.position -= cam.rotation.back();
+        cam.position -= cam.rotation.back() * 5;
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_A)){
-        cam.position += cam.rotation.left();
+        cam.position += cam.rotation.left() * 5;
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_D)){
-        cam.position += cam.rotation.right();
+        cam.position += cam.rotation.right() * 5;
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_Q)){
-        cam.position += cam.rotation.up();
+        cam.position += cam.rotation.up() * 5;
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_E)){
-        cam.position += cam.rotation.down();
+        cam.position += cam.rotation.down() * 5;
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_ESCAPE)){
         Kernel::quit();
@@ -81,6 +84,16 @@ void TestGame::render(RenderEngine * re){
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_V)){
         re->which = RenderEngine::RenderOut::FULL;
+    }
+    if(Keyboard::isKeyPressed(GLFW_KEY_Z) && !this->was_added){
+        this->was_added = true;
+        this->scene->p_lights.push_back(
+                NNY::Render::PointLight
+                    { 1000
+                    , Vector3f::random()
+                    , Vector3f(cam.position) });
+    }else if(!Keyboard::isKeyPressed(GLFW_KEY_Z)){
+        this->was_added = false;
     }
     re->render(this->scene);
 }
