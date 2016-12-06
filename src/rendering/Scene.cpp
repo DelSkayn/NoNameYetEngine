@@ -9,7 +9,6 @@
 #include <assimp/scene.h>
 #include <assimp/texture.h>
 #include <assimp/postprocess.h>
-#include <SOIL.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "../lib/stb_image.h"
@@ -143,7 +142,7 @@ unsigned int Scene::load_texture_from_file(std::string path){
     GLuint texture_id;
     glGenTextures(1, &texture_id);
     int width,height,components;
-    unsigned char* image = stbi_load(path.c_str(), &width, &height, &components, SOIL_LOAD_RGB);
+    unsigned char* image = stbi_load(path.c_str(), &width, &height, &components, 0);
     if(image == nullptr){
         M_LOG("[warning] failed to load image");
         return NO_TEXTURE;

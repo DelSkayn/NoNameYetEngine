@@ -26,9 +26,9 @@ namespace NNY{
     }
 
     class Engine{
-        friend Core::Kernel;
-        friend Core::Console;
-        friend Core::Input;
+        friend class Core::Kernel;
+        friend class Core::Console;
+        friend class Core::Input;
         public:
         static void setGame(AbstractGame * game);
         static void start();

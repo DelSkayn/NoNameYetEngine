@@ -10,10 +10,10 @@
 class TestGame : public AbstractGame{
     public:
         ~TestGame();
-        void init() override;
-        void render(NNY::Render::RenderEngine * re) override;
-        void update(NNY::Physics::PhysicsEngine * pe) override;
-        void clean() override;
+        void init();
+        void render(NNY::Render::RenderEngine * re);
+        void update(NNY::Physics::PhysicsEngine * pe);
+        void clean();
     private:
         bool forward;
         bool backward;

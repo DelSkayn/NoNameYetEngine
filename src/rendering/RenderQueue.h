@@ -12,7 +12,7 @@ namespace NNY{
         class RenderEngine;
 
         class RenderQueue{
-            friend RenderEngine;
+            friend class RenderEngine;
             public:
             void addRenderObj(RenderObject robj);
             Camera & getCamera();

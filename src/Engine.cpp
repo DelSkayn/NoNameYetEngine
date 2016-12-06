@@ -29,12 +29,12 @@ namespace NNY{
         }
 
 
-        current_window = new Core::Window(1920,1080);
+        current_window = new Core::Window(1680,1050);
         current_window->resize();
 
         Core::Input::init();
 
-        render_engine = new Render::RenderEngine(1920,1080);
+        render_engine = new Render::RenderEngine(1680,1050);
         physics_engine = new Physics::PhysicsEngine();
         console = new Core::Console();
 

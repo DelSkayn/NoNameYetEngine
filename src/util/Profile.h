@@ -21,7 +21,7 @@ class ProfileSample{
 };
 
 class Profile{
-    friend ProfileSample;
+    friend class ProfileSample;
     public:
         static std::string getProfileAsString();
         static void reset();

@@ -14,7 +14,7 @@ namespace NNY{
     namespace Render{
 
         class RenderEngine{
-            friend Core::Console;
+            friend class Core::Console;
             public:
                 
                 RenderEngine(unsigned width, unsigned height);

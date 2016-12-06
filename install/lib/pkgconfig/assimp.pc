@@ -1,0 +1,11 @@
+prefix=/vol/home/s1559451/mees_zijn_shit/Documents/cg/NoNameYetEngine/install
+exec_prefix=/vol/home/s1559451/mees_zijn_shit/Documents/cg/NoNameYetEngine/install/bin
+libdir=/vol/home/s1559451/mees_zijn_shit/Documents/cg/NoNameYetEngine/install/lib
+includedir=/vol/home/s1559451/mees_zijn_shit/Documents/cg/NoNameYetEngine/install/include/assimp
+
+Name: Assimp
+Description: Import various well-known 3D model formats in an uniform manner.
+Version: 3.3.1
+Libs: -L${libdir} -lassimp
+Libs.private: -lstdc++ -lz
+Cflags: -I${includedir}

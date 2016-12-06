@@ -46,7 +46,7 @@ class Log{
         RENDERING = 2, //
         CORE = 4,      
         DEBUGGING = 8, //All debug messages displayed
-        ALL = (8 << 1) -1, //All messages displayed DO NOT USE IN LOGLVL 
+        ALL = (8 << 1) -1 //All messages displayed DO NOT USE IN LOGLVL 
     };
 
     private:

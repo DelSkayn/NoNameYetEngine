@@ -37,7 +37,7 @@ namespace NNY{
         };
 
         class Mouse{
-            friend Input;
+            friend class Input;
             public:
                 static double x;
                 static double y;
@@ -55,7 +55,7 @@ namespace NNY{
          * Very temporary input selution
          */
         class Keyboard{
-            friend Input;
+            friend class Input;
             public:
                 static bool isKeyPressed(int key);
             private:

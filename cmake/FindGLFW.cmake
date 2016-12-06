@@ -1,4 +1,5 @@
 SET( GLFW_SEARCH_PATHS
+    ./install/
     ${GLFW_LOCATION}
     ./lib/GLFW
     $ENV{PROGRAMFILES}/GLFW
@@ -43,15 +44,16 @@ if(NOT X11_Xrandr_FOUND)
     message(FATAL_ERROR "Xrandr library not found - required for GLFW")
 endif()
 
-if(NOT X11_xf86vmode_FOUND)
-    message(FATAL_ERROR "xf86vmode library not found - required for GLFW")
+if(NOT X11_Xinerama_FOUND)
+    message(FATAL_ERROR "Xinerame library not found - required for GLFW")
 endif()
+
 
 if(NOT X11_Xcursor_FOUND)
     message(FATAL_ERROR "Xcursor library not found - required for GLFW")
 endif()
 
-list(APPEND GLFW_x11_LIBRARY "${X11_Xrandr_LIB}" "${X11_Xxf86vm_LIB}" "${X11_Xcursor_LIB}" "${CMAKE_THREAD_LIBS_INIT}" -lrt -lXi)
+list(APPEND GLFW_x11_LIBRARY "${X11_Xrandr_LIB}" "${X11_Xinerama_LIB}" "${X11_Xcursor_LIB}" "${CMAKE_THREAD_LIBS_INIT}" -lrt -lXi)
 
 
 IF( GLFW_INCLUDE_DIRS AND GLFW_LIBRARIES )

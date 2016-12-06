@@ -83,7 +83,6 @@ void Log::logOglError(std::string line){
 
 void Log::logOglDebug(){
     GLint maxMsgLen = 0;
-    glGetIntegerv(GL_MAX_DEBUG_MESSAGE_LENGTH, &maxMsgLen);
 
     std::vector<GLchar> msgData(10 * maxMsgLen);
     std::vector<GLenum> sources(10);

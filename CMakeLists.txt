@@ -15,7 +15,7 @@ set(NNYEngine_VERSION_PATCH 1)
 add_definitions(
     -c 
     -Wall
-    -std=gnu++11
+    -std=c++0x
     -pedantic
     )
 
@@ -69,18 +69,13 @@ find_package(OpenGL REQUIRED)
 find_package(Threads REQUIRED)
 
 # GLEW
-INCLUDE(${NNYEngine_CMAKE_DIR}/FindGLEW.cmake)
+INCLUDE(${NNYEngine_CMAKE_DIR}/FindGLFW.cmake)
 
 # Assimp 
 INCLUDE(${NNYEngine_CMAKE_DIR}/FindAssimp.cmake)
 
-# SOIL 
-INCLUDE(${NNYEngine_CMAKE_DIR}/FindSOIL.cmake)
-
 # GLFW 
-find_package(PkgConfig REQUIRED)
-
-pkg_search_module(GLFW REQUIRED glfw3)
+INCLUDE(${NNYEngine_CMAKE_DIR}/FindGLEW.cmake)
 
 
 # Define the include DIRs
@@ -90,16 +85,16 @@ include_directories(
 	${OPENGL_INCLUDE_DIRS}
 	${GLEW_INCLUDE_DIRS}
     ${GLFW_INCLUDE_DIRS}
-    ${SOIL_INCLUDE_DIR}
+    ${ASSIMP_INCLUDE_DIRS}
+    ./install/include
 )
 
 # Define the link libraries
 target_link_libraries( NNYEngine
-    ${GLFW_STATIC_LIBRARIES}
+    ${GLFW_LIBRARIES}
     ${CMAKE_THREAD_LIBS_INIT}
     ${GLEW_LIBRARIES}
 	${OPENGL_LIBRARIES}
-    ${ASSIMP_LIBRARY}
-    ${SOIL_LIBRARY}
+    ${ASSIMP_LIBRARIES}
 )
 
