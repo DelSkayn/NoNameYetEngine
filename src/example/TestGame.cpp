@@ -70,6 +70,18 @@ void TestGame::render(RenderEngine * re){
     if(Keyboard::isKeyPressed(GLFW_KEY_P)){
         re->exposure -= 0.01;
     }
+    if(Keyboard::isKeyPressed(GLFW_KEY_M)){
+        re->which = RenderEngine::RenderOut::ALBEDO;
+    }
+    if(Keyboard::isKeyPressed(GLFW_KEY_N)){
+        re->which = RenderEngine::RenderOut::POSITIONS;
+    }
+    if(Keyboard::isKeyPressed(GLFW_KEY_B)){
+        re->which = RenderEngine::RenderOut::NORMALS;
+    }
+    if(Keyboard::isKeyPressed(GLFW_KEY_V)){
+        re->which = RenderEngine::RenderOut::FULL;
+    }
     re->render(this->scene);
 }
 

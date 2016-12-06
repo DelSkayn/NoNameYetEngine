@@ -1,5 +1,4 @@
 #version 330
-#define M_PI 3.1415926535897932384626433832795
 
 uniform float reflectance = 0.2;
 uniform float metalness = 0.0;
@@ -34,11 +33,11 @@ void main(){
         normal = fs_in.normal;
     }
     vec3 color = texture(albedo_texture, fs_in.tex_coord).xyz;
-    vec3 ambient = 0.1 * color;
 
 
     float roughness = 1 - texture(roughness_texture, fs_in.tex_coord).x * 0.7; 
 
+    vec3 ambient = 0.1 * color;
     //D term
     float alpha = roughness * roughness;
     float alpha2 = alpha * alpha;

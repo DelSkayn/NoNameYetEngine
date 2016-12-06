@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "PostProcess.h"
 #include "FrameBuffer.h"
+#include "GBuffer.h"
 
 namespace NNY{
     namespace Core{
@@ -17,6 +18,13 @@ namespace NNY{
             friend class Core::Console;
             public:
                 
+                enum RenderOut{
+                    FULL,
+                    NORMALS,
+                    POSITIONS,
+                    ALBEDO
+                };
+                
                 RenderEngine(unsigned width, unsigned height);
                 ~RenderEngine();
 
@@ -27,11 +35,13 @@ namespace NNY{
 
                 Shader * geometry_shader;
                 Shader * post_shader;
+                Shader * point_shader;
                 PostProcess * post;
                 Camera camera;
                 float exposure;
+                RenderOut which;
             private:
-                FrameBuffer * collect_buffer;
+                GBuffer * g_buffer;
                 RenderEngine();
                 unsigned width,height;
                 bool glew_inited;

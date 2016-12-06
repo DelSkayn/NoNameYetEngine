@@ -12,8 +12,7 @@
 #include "../util/Profile.h"
 
 namespace NNY{
-    namespace Render{
-        RenderEngine::RenderEngine(unsigned width, unsigned height){ //request opengl version 3.2
+    namespace Render{ RenderEngine::RenderEngine(unsigned width, unsigned height){ //request opengl version 3.2
 
             //create window and context
             glewExperimental = true;
@@ -54,7 +53,7 @@ namespace NNY{
                 }
 
             //set the clear color
-            glClearColor(0.0f,0.0f,1.0f,1.0f);
+            glClearColor(0.0f,0.0f,0.0f,1.0f);
 
             //enable back face culling    
             glFrontFace(GL_CCW);
@@ -70,12 +69,15 @@ namespace NNY{
 
             //load default values for rescources
             this->geometry_shader = new Shader(); 
-            this->geometry_shader->load_shader("res/shader/pv.glsl","res/shader/p.glsl");
+            this->geometry_shader->load_shader("res/shader/geomv.glsl","res/shader/geom.glsl");
             this->post_shader = new Shader();
             this->post_shader->load_shader("res/shader/postv.glsl","res/shader/post.glsl");
+            this->point_shader = new Shader();
+            this->point_shader->load_shader("res/shader/p_lightv.glsl","res/shader/p_light.glsl");
             this->post = new PostProcess();
-            this->collect_buffer = new FrameBuffer(width,height,GL_RGBA16F,true);
+            this->g_buffer = new GBuffer(width,height);
             this->exposure = 1.0;
+            this->which = RenderOut::FULL;
         }
 
         RenderEngine::~RenderEngine(){
@@ -83,15 +85,15 @@ namespace NNY{
         }
 
         void RenderEngine::render(Scene * scene) {
-            this->collect_buffer->bind();
+            Vector3f view_position = Vector3f(this->camera.position);
+            this->g_buffer->bind();
+                this->geometry_shader->bind();
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
                 Matrix4f camMatrix = Matrix4f(this->camera.getViewProjection());
                 Matrix4f projection = Matrix4f(this->camera.getProjection());
                 Matrix4f viewMatrix = Matrix4f(this->camera.getView());
-                Vector3f view_position = Vector3f(this->camera.position);
 
-                this->geometry_shader->bind();
 
                 this->geometry_shader->get_uniform("projection")->set_matrix4f(projection);
                 this->geometry_shader->get_uniform("view")->set_matrix4f(viewMatrix);
@@ -146,15 +148,37 @@ namespace NNY{
                 glBindVertexArray(0);
                 Shader::unbind();
             FrameBuffer::unbind();
-
-
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            this->post_shader->bind();
-            auto t = this->collect_buffer->get_texture();
-            this->post_shader->get_uniform("input")->set_texture(t,0);
-            this->post_shader->get_uniform("exposure")->set_float(this->exposure);
-            this->post->draw();
+
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            if(this->which == RenderOut::FULL){
+                this->point_shader->bind();
+                auto position = this->g_buffer->get_position_texture();
+                auto normal = this->g_buffer->get_normal_texture();
+                auto albedo = this->g_buffer->get_albedo_texture();
+                this->point_shader->get_uniform("in_position")->set_texture(position,0);
+                this->point_shader->get_uniform("in_normal")->set_texture(normal,1);
+                this->point_shader->get_uniform("in_albedo")->set_texture(albedo,2);
+                this->point_shader->get_uniform("exposure")->set_float(this->exposure);
+                this->point_shader->get_uniform("view_pos")->set_vector3f(view_position);
+                this->point_shader->get_uniform("light_pos")->set_vector3f(Vector3f(0.0,10.0,0.0));
+                this->point_shader->get_uniform("light_intensity")->set_float(100.0);
+                this->post->draw();
+            }else if(this->which == RenderOut::NORMALS){
+                this->post_shader->bind();
+                auto input = this->g_buffer->get_normal_texture();
+                this->post_shader->get_uniform("input")->set_texture(input,0);
+                this->post->draw();
+            }else if(this->which == RenderOut::POSITIONS){
+            }else if(this->which == RenderOut::ALBEDO){
+                this->post_shader->bind();
+                auto input = this->g_buffer->get_albedo_texture();
+                this->post_shader->get_uniform("input")->set_texture(input,0);
+                this->post->draw();
+            }
             Shader::unbind();
+            glDisable(GL_BLEND);
         }
 
         bool RenderEngine::ready() const {
