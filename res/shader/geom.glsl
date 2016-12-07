@@ -26,14 +26,14 @@ layout (location = 2) out vec3 out_position;
 void main(){
     vec3 normal;
     if(has_normal_texture){
-        normal = texture(normal_texture,fs_in.tex_coord).xyz;
+        normal = texture(normal_texture,fs_in.tex_coord).rgb;
         normal = normalize(normal * 2.0 - 1.0) * vec3(1,-1,1);
         normal = fs_in.tbn * normal;
     }else{
         normal = fs_in.normal;
     }
-    out_normal = normal;
-    vec3 color = texture(albedo_texture, fs_in.tex_coord).xyz;
+    out_normal = normalize(normal);
+    vec3 color = texture(albedo_texture, fs_in.tex_coord).rgb;
     float roughness = 1 - texture(roughness_texture, fs_in.tex_coord).x * 0.7; 
     out_albedo_roughness = vec4(color,roughness);
     out_position = fs_in.position;

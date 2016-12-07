@@ -17,7 +17,8 @@ namespace NNY{
 namespace Render{
 
 Scene::Scene(){
-    this->d_light = DirectionalLight { 1, Vector3f(1.0,1.0,1.0), Vector3f(0.0,-1.0,0.0)};
+    this->d_light = DirectionalLight { 1, Vector3f(1.0,0.90,0.90), Vector3f(0.0,-1.0,0.001)};
+
 }
 
 void Scene::load_from_file(std::string path){

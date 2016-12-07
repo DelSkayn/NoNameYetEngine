@@ -23,7 +23,7 @@ void main(){
     float roughness = temp.a;
 
     vec3 view = normalize(view_pos - position);
-    vec3 light = normalize(light_direction);
+    vec3 light = normalize(-light_direction);
     vec3 half = normalize(light + view);
 
     vec3 ambient = 0.1 * color;

@@ -150,6 +150,8 @@ class Matrix4 : public Matrix<T,4>{
         inline Matrix4<T> & toRotation(const Vector3<T>& n,const Vector3<T>& v,const Vector3<T>& u);
         inline Matrix4<T> & toRotation(const Vector3<T> & forward, const Vector3<T> & up);
 
+        inline static Matrix4<T> look_at(Vector3<T> eye,Vector3<T> direction,Vector3<T> up);
+
         inline Matrix4<T> & toPerspective(T fov, T aspectRatio, T zNear, T zFar);
         inline Matrix4<T> & toOrthographic(T left,T right,T bottom,T top,T near,T far);
 

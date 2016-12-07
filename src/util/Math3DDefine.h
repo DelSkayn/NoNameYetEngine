@@ -1,4 +1,5 @@
 ﻿#include "Math3D.h"
+#include "Log.h"
 #include <cmath>
 #include <cstdlib>
 
@@ -58,7 +59,9 @@ T Vector<T,I>::length()const {
 
 template<typename T,unsigned int I>
 Vector<T,I>& Vector<T,I>::normalize(){
-    (*this) /= length();
+    T len = length();
+    if(len != 0)
+        (*this) /= length();
     return *this;
 }
 
@@ -158,7 +161,10 @@ bool Vector<T,I>::operator!=(const Vector<T,I> & other) const{
 
 template<typename T,unsigned int I>
 Vector<T,I> Vector<T,I>::normalize(const Vector<T,I> & other){
-    return other / other.length();
+    T len = other.length();
+    if(len != 0)
+        return other / other.length();
+    return other;
 }
 
 template<typename T,unsigned int I>
@@ -600,11 +606,31 @@ Matrix4<T> & Matrix4<T>::toOrthographic(T left,T right,T bottom,T top,T near,T f
     const T depth = (far - near);
 
     (*this)[0][0] =  T(2)/width; (*this)[1][0] = T(0);       (*this)[2][0] = T(0);        (*this)[3][0] = -(right + left)/width;
-    (*this)[0][1] =  T(0);       (*this)[1][1] = T(2)/width; (*this)[2][1] = T(0);        (*this)[3][1] = -(top + bottom)/height;
+    (*this)[0][1] =  T(0);       (*this)[1][1] = T(2)/height;(*this)[2][1] = T(0);        (*this)[3][1] = -(top + bottom)/height;
     (*this)[0][2] =  T(0);       (*this)[1][2] = T(0);       (*this)[2][2] = T(-2)/depth; (*this)[3][2] = -(far + near)/depth;
     (*this)[0][3] =  T(0);       (*this)[1][3] = T(0);       (*this)[2][3] = T(0);        (*this)[3][3] = T(1);
 
     return *this;
+}
+
+template<typename T>
+Matrix4<T> Matrix4<T>::look_at(Vector3<T> eye,Vector3<T> center,Vector3<T> up){
+    Vector3f direction = Vector3<T>::normalize(center - eye);
+    Vector3<T> s = direction.cross(Vector3<T>::normalize(up));
+    s.normalize();
+    M_LOG(MathUtil::vectorToStr(s));
+    Vector3<T> u = s.cross(direction);
+    Vector3<T> min_f = direction * -1;
+    Matrix4<T> rot;
+    rot.toRotation(s,u,min_f);
+
+    Matrix4<T> trans;
+    trans.toIdentity();
+    trans[3][0] = -eye.x();
+    trans[3][1] = -eye.y();
+    trans[3][2] = -eye.z();
+
+    return rot * trans;
 }
 
 template<typename T>

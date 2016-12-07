@@ -7,7 +7,7 @@
 #define OGL_VERSION_MAJOR_REQUIRED 4
 #define OGL_VERSION_MINOR_REQUIRED 3
 
-#define WINDOW_SIZE 800,600
+#define WINDOW_SIZE 1280,800
 
 #include "AbstractGame.h" 
 

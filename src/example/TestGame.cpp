@@ -41,22 +41,22 @@ void TestGame::render(RenderEngine * re){
     cam.rotation.conjugate();
 
     if(Keyboard::isKeyPressed(GLFW_KEY_W)){
-        cam.position -= cam.rotation.forward() * 5;
+        cam.position -= cam.rotation.forward() * 2;
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_S)){
-        cam.position -= cam.rotation.back() * 5;
+        cam.position -= cam.rotation.back() * 2;
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_A)){
-        cam.position += cam.rotation.left() * 5;
+        cam.position += cam.rotation.left() * 2;
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_D)){
-        cam.position += cam.rotation.right() * 5;
+        cam.position += cam.rotation.right() * 2;
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_Q)){
-        cam.position += cam.rotation.up() * 5;
+        cam.position += cam.rotation.up() * 2;
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_E)){
-        cam.position += cam.rotation.down() * 5;
+        cam.position += cam.rotation.down() * 2;
     }
     if(Keyboard::isKeyPressed(GLFW_KEY_ESCAPE)){
         Kernel::quit();
@@ -85,11 +85,17 @@ void TestGame::render(RenderEngine * re){
     if(Keyboard::isKeyPressed(GLFW_KEY_V)){
         re->which = RenderEngine::RenderOut::FULL;
     }
+    if(Keyboard::isKeyPressed(GLFW_KEY_C)){
+        this->scene->d_light.direction 
+            = Quaternionf(Vector3f(1.0,0.0,0.0),0.01).rotateVec(
+                    this->scene->d_light.direction
+                    );
+    }
     if(Keyboard::isKeyPressed(GLFW_KEY_Z) && !this->was_added){
         this->was_added = true;
         this->scene->p_lights.push_back(
                 NNY::Render::PointLight
-                    { 1000
+                    { 5000
                     , Vector3f::random()
                     , Vector3f(cam.position) });
     }else if(!Keyboard::isKeyPressed(GLFW_KEY_Z)){

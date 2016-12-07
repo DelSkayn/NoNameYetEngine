@@ -8,6 +8,7 @@
 #include "PostProcess.h"
 #include "FrameBuffer.h"
 #include "GBuffer.h"
+#include "ShadowMap.h"
 
 namespace NNY{
     namespace Core{
@@ -39,6 +40,7 @@ namespace NNY{
                 Shader * pos_shader;
                 Shader * point_shader;
                 Shader * dir_shader;
+                ShadowMap * shadow_map;
                 PostProcess * post;
                 Camera camera;
                 float exposure;

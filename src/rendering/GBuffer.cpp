@@ -19,7 +19,7 @@ GBuffer::GBuffer(unsigned width,unsigned height){
 
     glBindTexture(GL_TEXTURE_2D, this->albedo_roughess);
         M_LOG_OGLERR;
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
         M_LOG_OGLERR;
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         M_LOG_OGLERR;
@@ -28,7 +28,7 @@ GBuffer::GBuffer(unsigned width,unsigned height){
 
     glBindTexture(GL_TEXTURE_2D, this->normal);
         M_LOG_OGLERR;
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, width, height, 0, GL_RGB, GL_FLOAT, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, NULL);
         M_LOG_OGLERR;
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         M_LOG_OGLERR;
@@ -37,7 +37,7 @@ GBuffer::GBuffer(unsigned width,unsigned height){
 
     glBindTexture(GL_TEXTURE_2D, this->position);
         M_LOG_OGLERR;
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, width, height, 0, GL_RGB, GL_FLOAT, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, NULL);
         M_LOG_OGLERR;
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         M_LOG_OGLERR;

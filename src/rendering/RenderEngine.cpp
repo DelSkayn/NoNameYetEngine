@@ -82,6 +82,9 @@ namespace NNY{
             this->g_buffer = new GBuffer(width,height);
             this->exposure = 1.0;
             this->which = RenderOut::FULL;
+            this->shadow_map = new ShadowMap();
+            this->width = width;
+            this->height = height;
         }
 
         RenderEngine::~RenderEngine(){
@@ -152,6 +155,20 @@ namespace NNY{
                 glBindVertexArray(0);
                 Shader::unbind();
             FrameBuffer::unbind();
+
+            /*
+            this->shadow_map->bind(this->camera,scene->d_light);
+
+                for(Mesh & m : scene->meshes){
+                    glBindVertexArray(m.vao);
+                    glDrawElements(GL_TRIANGLES,m.indexsize,GL_UNSIGNED_INT,0);
+                }
+                glBindVertexArray(0);
+
+            ShadowMap::unbind(this->width,this->height);
+            */
+                
+
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             if(this->which == RenderOut::FULL){
 
@@ -203,7 +220,7 @@ namespace NNY{
             }else if(this->which == RenderOut::POSITIONS){
                 this->pos_shader->bind();
                 auto input = this->g_buffer->get_position_texture();
-                this->post_shader->get_uniform("input")->set_texture(input,0);
+                this->pos_shader->get_uniform("input")->set_texture(input,0);
                 this->post->draw();
             }else if(this->which == RenderOut::ALBEDO){
                 this->post_shader->bind();
