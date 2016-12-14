@@ -1,5 +1,7 @@
 
 SET( GLEW_SEARCH_PATHS
+    ./install/
+    ./install/include
 	${GLEW_ROOT_DIR}					# GLEW!
 	./lib/glew
 	$ENV{PROGRAMFILES}/GLEW				# WINDOWS
